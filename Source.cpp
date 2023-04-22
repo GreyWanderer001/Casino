@@ -32,6 +32,7 @@ int main()
 	b.GetArcadeByName("Flappybox").Play(a, 10);
 
 	a.Display();
+	b.Display();
 	
 	return 0;
 }

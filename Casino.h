@@ -2,6 +2,11 @@
 #include <string>
 #include "Arcade.h"
 #include <vector>
+#ifndef Casino_H
+#define Casino_H
+
+
+class Arcade;
 
 class Casino
 {
@@ -17,7 +22,9 @@ public:
 	void CreateArcade(std::string name);
 	Arcade GetArcade(int index);
 	Arcade GetArcadeByName(std::string name);
+	void ChangeBalance(int newbalance);
 
 
 
 };
+#endif

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Casino.h"
 #include <string>
-#include "Arcade.h"
+
 
 Casino::Casino(int balance, std::string name) {
 	this->balance = balance;
@@ -13,7 +13,8 @@ void Casino::Display() {
 }
 
 void Casino::CreateArcade(std::string name) {
-	Arcade arcade(name);
+	
+	Arcade arcade(name, this);
 	this->arcades.push_back(arcade);
 }
 
@@ -27,4 +28,15 @@ Arcade Casino::GetArcadeByName(std::string name) {
 		if (this->arcades.at(i).GetName() == name)
 			return this->arcades.at(i);
 
+}
+
+void Casino::ChangeBalance(int newbalance) {
+	if (newbalance < 0 && this->balance < std::abs(newbalance)) {
+		this->balance = balance;
+	}
+	else {
+		this->balance += newbalance;
+
+
+	}
 }

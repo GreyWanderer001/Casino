@@ -1,10 +1,12 @@
 #include <iostream>
-#include "Arcade.h"
-#include "Customer.h"
 
-Arcade::Arcade(std::string name) {
+#include "Customer.h"
+#include "Casino.h"
+
+Arcade::Arcade(std::string name, Casino* casino) {
 
 	this->GameName = name;
+	this->casino = casino;
 }
 
 void Arcade::Display() {
@@ -17,6 +19,8 @@ void Arcade::Play(Customer &customer, int bid) {
 	}
 	else {
 		customer.ChangeBalance(-bid);
+		this->casino->ChangeBalance(bid);
+	
 
 	}
 }
