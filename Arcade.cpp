@@ -14,15 +14,21 @@ void Arcade::Display() {
 }
 
 void Arcade::Play(Customer &customer, int bid) {
-	if (customer.GetBalance() < bid) {
-		std::cout << "Insufficient funds" << std::endl;
+	if (bid > this->casino->GetBalance()) {
+		std::cout << "Casino dont have this amount of money" << std::endl;
 	}
 	else {
-		customer.ChangeBalance(-bid);
-		this->casino->ChangeBalance(bid);
-	
+		if (customer.GetBalance() < bid) {
+			std::cout << "Insufficient funds" << std::endl;
+		}
+		else {
+			customer.ChangeBalance(-bid);
+			this->casino->ChangeBalance(bid);
 
+
+		}
 	}
+	
 }
 
 std::string Arcade::GetName() {

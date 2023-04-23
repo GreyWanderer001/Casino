@@ -6,12 +6,13 @@
 Customer::Customer(int balance, std::string name, std::string surname) {
 	this->balance = balance;
 	this->name = name;
-	this->surname = surname;
+	this->password = password;
+
 
 }
 
 void Customer::Display() {
-	std::cout << this->balance << " " << this->name << " " << this->surname <<std::endl;
+	std::cout << this->balance << " " << this->name << std::endl;
 }
 
 void Customer::ChangeBalance(int newbalance) {

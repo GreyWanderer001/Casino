@@ -40,3 +40,7 @@ void Casino::ChangeBalance(int newbalance) {
 
 	}
 }
+
+int Casino::GetBalance() {
+	return this->balance;
+}

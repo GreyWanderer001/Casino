@@ -23,6 +23,7 @@ public:
 	Arcade GetArcade(int index);
 	Arcade GetArcadeByName(std::string name);
 	void ChangeBalance(int newbalance);
+	int GetBalance();
 
 
 
