@@ -14,6 +14,9 @@ public:
 	void Display();
 	void ChangeBalance(int newbalance);
 	int GetBalance();
+	bool ComparePassword(std::string name, std::string password, std::vector<Customer> customers);
+	std::string GetName();
+	std::string GetPass();
 
 	
 
