@@ -12,12 +12,24 @@ void Casino::Display() {
 	std::cout << this->balance << " " << this->name << " " <<  std::endl;
 }
 
+void Casino::DisplayArcades() {
+	for (int i = 0; i < arcades.size(); i++)
+		std::cout << i << " - " << arcades.at(i).GetName() << std::endl;
+}
+
 void Casino::CreateArcade(std::string name) {
 	
 	Arcade arcade(name, this);
 	this->arcades.push_back(arcade);
 }
 
+int Casino::GetArcadesSize() {
+	return arcades.size();
+}
+
+std::string Casino::GetName() {
+	return this->name;
+}
 
 Arcade Casino::GetArcade(int index) {
 	return this->arcades.at(index);

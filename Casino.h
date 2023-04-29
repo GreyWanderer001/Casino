@@ -24,6 +24,9 @@ public:
 	Arcade GetArcadeByName(std::string name);
 	void ChangeBalance(int newbalance);
 	int GetBalance();
+	void DisplayArcades();
+	int GetArcadesSize();
+	std::string GetName();
 
 
 

@@ -14,8 +14,14 @@ void ReadCasino();
 void ReadArcade();
 
 std::vector<Customer> customers;
+std::vector<Casino> casinos;
+
 int me = -1;
 int choice = 0;
+int choice2 = 0;
+int choice3 = 0;
+int bid;
+bool doublebreak = false;
 std::string name = "";
 std::string password = "";
 
@@ -24,6 +30,12 @@ std::string password = "";
 
 int main()
 {
+	Casino b(100, "fenix");
+	casinos.push_back(b);
+	casinos.at(0).CreateArcade("Flappybox");
+	
+
+
 	while (me < 0) {
 		std::cout << "1 - login, 2 - register, other to exit" << std::endl;
 		std::cin >> choice;
@@ -45,19 +57,84 @@ int main()
 			break;
 		}
 		while (me > -1) {
+			
 			std::cout << "1 - go to the casino, other - exit" << std::endl;
 			std::cin >> choice;
 			if (choice == 1) {
-				Casino b(100, "fenix");
+				std::cout << "choose casino to go to " << std::endl;
+				for (int i = 0; i < casinos.size(); i++)
+					std::cout << i << " - " << casinos.at(i).GetName() << std::endl;
+				
+				std::cin >> choice3;
+
+				while (choice3 > casinos.size() || choice3 < 0) {
+					std::cout << "choose casino to go to " << std::endl;
+					for (int i = 0; i < casinos.size(); i++)
+						std::cout << i << " - " << casinos.at(i).GetName() << std::endl;
+
+					std::cin >> choice3;
+				}
+
+				while (true) {
+					
 
 
-				b.Display();
+					std::cout << "choose arcade" << std::endl;
+					casinos.at(choice3).DisplayArcades();
+					std::cin >> choice2;
 
-				b.CreateArcade("Flappybox");
+					if (choice2 == -1) {
+						break;
+					}
 
-				b.GetArcade(0).Play(customers.at(me), 20);
-				customers.at(me).Display();
-				b.Display();
+					while (choice2 > casinos.at(choice3).GetArcadesSize() - 1 || choice2 < 0) {
+						std::cout << "choose correct arcade" << std::endl;
+						casinos.at(choice3).DisplayArcades();
+						std::cin >> choice2;
+						//if (choice == -1) {
+						//	doublebreak = true;
+						//	break;
+						//}
+					}
+
+					//if (doublebreak) {
+					//	doublebreak = false;
+					//	break;
+					//}
+
+
+
+					std::cout << "Your balance: " << customers.at(me).GetBalance() << " Enter your bid ";
+					std::cin >> bid;
+
+					if (bid == -1) {
+						break;
+					}
+
+					while (bid > customers.at(me).GetBalance() || bid < 0) {
+						std::cout << "Enter your bid correctly" << std::endl;
+						std::cout << "Your balance: " << customers.at(me).GetBalance() << " Enter your bid ";
+						std::cin >> bid;
+						//if (bid == -1) {
+						//	doublebreak = true;
+						//	break;
+						//}
+					}
+
+					//if (doublebreak) {
+					//	doublebreak = false;
+					//	break;
+					//}
+
+
+
+					casinos.at(choice3).GetArcade(choice2).Play(customers.at(me), bid);
+				}
+
+
+
+				
+				
 			}
 			else {
 				break;

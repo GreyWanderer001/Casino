@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include<cstdlib>
 #include "Customer.h"
 #include "Casino.h"
 
@@ -22,8 +22,20 @@ void Arcade::Play(Customer &customer, int bid) {
 			std::cout << "Insufficient funds" << std::endl;
 		}
 		else {
-			customer.ChangeBalance(-bid);
-			this->casino->ChangeBalance(bid);
+			srand(time(NULL));
+			int random = rand() % 2 + 1;
+			std::cout << random << std::endl;
+			if (random == 1) {
+				customer.ChangeBalance(-bid);
+				this->casino->ChangeBalance(bid);
+				std::cout << "You lose, your balance: " << customer.GetBalance() << std::endl;
+			}
+			else {
+				customer.ChangeBalance(bid);
+				this->casino->ChangeBalance(-bid);
+				std::cout << "You won, your balance: " << customer.GetBalance() << std::endl;
+			}
+			
 
 
 		}

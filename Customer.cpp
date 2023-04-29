@@ -28,3 +28,5 @@ void Customer::ChangeBalance(int newbalance) {
 int Customer::GetBalance() {
 	return this->balance;
 }
+
+
