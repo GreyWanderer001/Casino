@@ -78,7 +78,7 @@ int main()
 				while (true) {
 					
 
-
+					std::cout << "-1 to exit" << std::endl;
 					std::cout << "choose arcade" << std::endl;
 					casinos.at(choice3).DisplayArcades();
 					std::cin >> choice2;
@@ -88,47 +88,57 @@ int main()
 					}
 
 					while (choice2 > casinos.at(choice3).GetArcadesSize() - 1 || choice2 < 0) {
+						std::cout << "-1 to exit" << std::endl;
 						std::cout << "choose correct arcade" << std::endl;
 						casinos.at(choice3).DisplayArcades();
 						std::cin >> choice2;
-						//if (choice == -1) {
-						//	doublebreak = true;
-						//	break;
-						//}
+						if (choice2 == -1) {
+							doublebreak = true;
+							break;
+						}
 					}
 
-					//if (doublebreak) {
-					//	doublebreak = false;
-					//	break;
-					//}
-
-
-
-					std::cout << "Your balance: " << customers.at(me).GetBalance() << " Enter your bid ";
-					std::cin >> bid;
-
-					if (bid == -1) {
+					if (doublebreak) {
+						doublebreak = false;
 						break;
 					}
 
-					while (bid > customers.at(me).GetBalance() || bid < 0) {
-						std::cout << "Enter your bid correctly" << std::endl;
+
+					while (true) {
+						std::cout << "-1 to exit" << std::endl;
 						std::cout << "Your balance: " << customers.at(me).GetBalance() << " Enter your bid ";
 						std::cin >> bid;
-						//if (bid == -1) {
-						//	doublebreak = true;
-						//	break;
-						//}
+
+						if (bid == -1) {
+							doublebreak = true;
+							break;
+						}
+
+						while (bid > customers.at(me).GetBalance() || bid < 0) {
+							std::cout << "-1 to exit" << std::endl;
+							std::cout << "Enter your bid correctly" << std::endl;
+							std::cout << "Your balance: " << customers.at(me).GetBalance() << " Enter your bid ";
+							std::cin >> bid;
+							if (bid == -1) {
+								doublebreak = true;
+								break;
+							}
+						}
+
+						if (doublebreak) {
+							break;
+						}
+
+
+
+						casinos.at(choice3).GetArcade(choice2).Play(customers.at(me), bid);
+					}
+					if (doublebreak) {
+						doublebreak = false;
+						break;
 					}
 
-					//if (doublebreak) {
-					//	doublebreak = false;
-					//	break;
-					//}
-
-
-
-					casinos.at(choice3).GetArcade(choice2).Play(customers.at(me), bid);
+					
 				}
 
 
