@@ -53,3 +53,7 @@ void Arcade::Play(Customer &customer, int bid) {
 std::string Arcade::GetName() {
 	return this->GameName;
 }
+
+std::string Arcade::GetCasinoName() {
+	return this->casino->GetName();
+}

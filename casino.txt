@@ -1,0 +1,3 @@
+Fenix:1000000
+Olympic:1000000
+Olybet:1000000

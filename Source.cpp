@@ -1,22 +1,26 @@
 ﻿#include <iostream>
-#include "Customer.h"
-#include "Casino.h"
-#include "Arcade.h"
-
 #include <fstream>
 #include <string>
 #include <conio.h>
 
+#include "Customer.h"
+#include "Casino.h"
+#include "Arcade.h"
+
 using namespace std;
 
-void readCustomers();
-void ReadCasino();
-void ReadArcade();
-void writeToFile();
 void izvade();
+void ReadArcade();
+void ReadCasino();
+void writeToArcade();
+void ReadCustomers();
+void writeToCasino();
+void writeToCustomers();
+int checkUser(string username, string password);
+void registerUser(string username, string password);
 
-std::vector<Customer> customers;
 std::vector<Casino> casinos;
+std::vector<Customer> customers;
 
 int me = -1;
 int choice = 0;
@@ -25,54 +29,16 @@ int choice3 = 0;
 int bid;
 bool doublebreak = false;
 
-void registerUser(string username, string password) {
-	bool parbaude = false;
-	for (int i = 0; i < customers.size(); i++) {
-		if (username == customers.at(i).GetName()) {
-			parbaude = true;
-			cout << "\n";
-			std::cout << "\nUser already exsist!";
-		}
-	}
-	if (parbaude) {
-
-	}
-	else {
-		Customer registred(100, username, password);
-		customers.push_back(registred);
-		ofstream outfile("users.txt", ios::app);
-		outfile << username << ":" << password << ":" << 100 << endl;
-		outfile.close();
-		cout << "\n";
-		cout << "\nThank you for registration in our Casino!";
-	}
-
-
-}
-
-int checkUser(string username, string password) {
-	for (int i = 0; i < customers.size(); i++) {
-		if (username == customers.at(i).GetName() && customers.at(i).GetPass() == password) {
-			return i;
-
-		}
-	}
-	return -1;
-}
-
-
 int main()
 {
 
 	izvade();
 
-	readCustomers();
+	ReadCasino();
+	ReadCustomers();
+	ReadArcade();
 
 	string username, password;
-
-	Casino b(100, "Fenix");
-	casinos.push_back(b);
-	casinos.at(0).CreateArcade("Flappybox");
 
 
 	while (me < 0) {
@@ -117,6 +83,36 @@ int main()
 			else if (choice == 3) {
 				break;
 			}
+
+			else if (choice == 4) {
+				std::cout << "Enter Casino name: ";
+				std::string name;
+				std::cin >> name;
+
+				std::cout << "Enter Casino balance: ";
+				int balance;
+				std::cin >> balance;
+
+				Casino create(balance, name);
+				casinos.push_back(create);
+			}
+
+			else if (choice == 5) {
+
+				for (int i = 0; i < casinos.size(); i++)
+					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+
+
+				std::cout << "In which Casino would you like to put arcade?: ";
+				int Casinonum;
+				std::cin >> Casinonum;
+
+				std::cout << "Enter Arcade name: ";
+				std::string Arcadename;
+				std::cin >> Arcadename;
+
+				casinos.at(Casinonum-1).CreateArcade(Arcadename);
+			}
 			else {
 				cout << "Invalid choice.\n";
 			}
@@ -156,7 +152,7 @@ int main()
 					std::cin >> choice2;
 					choice2 -= 1;
 
-					if (choice2 == -1) {
+					if (choice2 == -2) {
 						break;
 					}
 
@@ -166,7 +162,7 @@ int main()
 						std::cout << "-> ";
 						std::cin >> choice2;
 						choice2 -= 1;
-						if (choice2 == -1) {
+						if (choice2 == -2) {
 							doublebreak = true;
 							break;
 						}
@@ -240,9 +236,9 @@ int main()
 
 
 
-
-
-	writeToFile();
+	writeToArcade();
+	writeToCasino();
+	writeToCustomers();
 	return 0;
 }
 
@@ -258,7 +254,7 @@ void izvade() {
 	}
 }
 
-void writeToFile() {
+void writeToCustomers() {
 	std::ofstream file("users.txt", std::ios::trunc);
 	file.close();
 	std::ofstream file1("users.txt");
@@ -270,7 +266,7 @@ void writeToFile() {
 	file1.close();
 }
 
-void readCustomers() {
+void ReadCustomers() {
 	std::ifstream file("users.txt");
 
 	std::string line;
@@ -288,10 +284,104 @@ void readCustomers() {
 	file.close();
 }
 
+void registerUser(string username, string password) {
+	bool parbaude = false;
+	for (int i = 0; i < customers.size(); i++) {
+		if (username == customers.at(i).GetName()) {
+			parbaude = true;
+			cout << "\n";
+			std::cout << "\nUser already exsist!";
+		}
+	}
+	if (parbaude) {
+
+	}
+	else {
+		Customer registred(100, username, password);
+		customers.push_back(registred);
+		ofstream outfile("users.txt", ios::app);
+		outfile << username << ":" << password << ":" << 100 << endl;
+		outfile.close();
+		cout << "\n";
+		cout << "\nThank you for registration in our Casino!";
+	}
+
+
+}
+
+int checkUser(string username, string password) {
+	for (int i = 0; i < customers.size(); i++) {
+		if (username == customers.at(i).GetName() && customers.at(i).GetPass() == password) {
+			return i;
+
+		}
+	}
+	return -1;
+}
+
 void ReadCasino()
 {
+	std::ifstream file("casino.txt");
+
+	std::string line;
+
+	while (std::getline(file, line)) {
+		size_t delimiter_pos = line.find(':');
+		std::string name = line.substr(0, delimiter_pos);
+		double balance = std::stod(line.substr(delimiter_pos + 1));
+		Casino info(balance, name);
+		casinos.push_back(info);
+	}
+
+	file.close();
+
+}
+
+void writeToCasino() {
+	std::ofstream file("casino.txt", std::ios::trunc);
+	file.close();
+	std::ofstream file1("casino.txt");
+
+	for (int i = 0; i < casinos.size(); i++) {
+		file1 << casinos.at(i).GetName() << ":" << casinos.at(i).GetBalance() << std::endl;
+	}
+
+	file1.close();
 }
 
 void ReadArcade()
 {
+	std::ifstream file("arcade.txt");
+
+	std::string line;
+
+	while (std::getline(file, line)) {
+		std::string delimiter = ":";
+		std::string name = line.substr(0, line.find(delimiter));
+		line.erase(0, line.find(delimiter) + delimiter.length());
+		std::string casinoname = line.substr(0, line.find(delimiter));
+		for (int i = 0; i < casinos.size(); i++) {
+			if (casinoname == casinos.at(i).GetName()) {
+				casinos.at(i).CreateArcade(name);
+			}
+		}
+
+	}
+
+	file.close();
+}
+
+void writeToArcade()
+{
+	std::ofstream file("arcade.txt", std::ios::trunc);
+	file.close();
+	std::ofstream file1("arcade.txt");
+
+	for (int i = 0; i < casinos.size(); i++) {
+		for (int y = 0; y < casinos.at(i).GetArcadesSize(); y++) {
+			file1 << casinos.at(i).GetArcade(y).GetName() << ":" << casinos.at(i).GetArcade(y).GetCasinoName() << std::endl;
+		}
+	}
+
+	file1.close();
 }

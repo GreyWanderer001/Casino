@@ -17,6 +17,7 @@ public:
 	void Display();
 	void Play(Customer &customer, int bid);
 	std::string GetName();
+	std::string GetCasinoName();
 
 
 
