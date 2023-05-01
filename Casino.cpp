@@ -14,7 +14,7 @@ void Casino::Display() {
 
 void Casino::DisplayArcades() {
 	for (int i = 0; i < arcades.size(); i++)
-		std::cout << i << " - " << arcades.at(i).GetName() << std::endl;
+		std::cout << i+1 << ". " << arcades.at(i).GetName() << std::endl;
 }
 
 void Casino::CreateArcade(std::string name) {

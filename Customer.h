@@ -10,7 +10,7 @@ private:
 	std::string password = "";
 
 public:
-	Customer(int balance, std::string name, std::string surname);
+	Customer(int balance, std::string name, std::string password);
 	void Display();
 	void ChangeBalance(int newbalance);
 	int GetBalance();

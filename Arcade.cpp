@@ -15,25 +15,32 @@ void Arcade::Display() {
 
 void Arcade::Play(Customer &customer, int bid) {
 	if (bid > this->casino->GetBalance()) {
-		std::cout << "Casino dont have this amount of money" << std::endl;
+		std::cout << "\nCasino dont have this amount of money!\n" << std::endl;
 	}
 	else {
 		if (customer.GetBalance() < bid) {
-			std::cout << "Insufficient funds" << std::endl;
+			std::cout << "\nInsufficient funds\n" << std::endl;
 		}
 		else {
 			srand(time(NULL));
 			int random = rand() % 2 + 1;
-			std::cout << random << std::endl;
 			if (random == 1) {
 				customer.ChangeBalance(-bid);
 				this->casino->ChangeBalance(bid);
-				std::cout << "You lose, your balance: " << customer.GetBalance() << std::endl;
+				system("CLS");
+				std::cout << "$$$-----| Welcome to Casino R&D |-----$$$\n";
+				std::cout << "User: " << customer.GetName() << " | Balance: " << customer.GetBalance() << "\n";
+				std::cout << "\n";
+				std::cout << "You lose";
 			}
 			else {
 				customer.ChangeBalance(bid);
 				this->casino->ChangeBalance(-bid);
-				std::cout << "You won, your balance: " << customer.GetBalance() << std::endl;
+				system("CLS");
+				std::cout << "$$$-----| Welcome to Casino R&D |-----$$$\n";
+				std::cout << "User: " << customer.GetName() << " | Balance: " << customer.GetBalance() << "\n";
+				std::cout << "\n";
+				std::cout << "You won";
 			}
 			
 
