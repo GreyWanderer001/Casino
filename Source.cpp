@@ -22,12 +22,12 @@ void registerUser(string username, string password);
 std::vector<Casino> casinos;
 std::vector<Customer> customers;
 
-int me = -1;
+int me = -1; // client position in vector customers
 int choice = 0;
 int choice2 = 0;
 int choice3 = 0;
 int bid;
-bool doublebreak = false;
+bool doublebreak = false; // to exit from two loops at once
 
 int main()
 {
@@ -54,10 +54,23 @@ int main()
 				cout << "Enter password: ";
 				password = "";
 				char ch;
-				while ((ch = _getch()) != '\r') {
-					password += ch;
-					cout << "*";
+				while (true) {
+					char ch = _getch();
+					if (ch == '\r') { // press enter
+						break;
+					}
+					else if (ch == '\b') { // press backspace
+						if (!password.empty()) {
+							password.pop_back();
+							cout << "\b \b"; // delete one symbol 
+						}
+					}
+					else {
+						password += ch;
+						cout << "*";
+					}
 				}
+
 				registerUser(username, password);
 				cout << endl;
 			}
@@ -67,10 +80,23 @@ int main()
 				cout << "Enter password: ";
 				password = "";
 				char c;
-				while ((c = _getch()) != '\r') {
-					password += c;
-					cout << "*";
+				while (true) {
+					char ch = _getch();
+					if (ch == '\r') {
+						break;
+					}
+					else if (ch == '\b') {
+						if (!password.empty()) {
+							password.pop_back();
+							cout << "\b \b";
+						}
+					}
+					else {
+						password += ch;
+						cout << "*";
+					}
 				}
+
 				me = checkUser(username, password);
 				if (me > -1) {
 					choice = 3;
@@ -99,7 +125,7 @@ int main()
 				}
 
 				Casino create(balance, name);
-				casinos.push_back(create);
+				casinos.push_back(create); // push in new created casino to casino vector
 			}
 
 			else if (choice == 5) {
@@ -189,7 +215,7 @@ int main()
 						break;
 					}
 
-					izvade();
+					izvade(); // display user info
 
 					while (true) {
 						cout << "\n";
@@ -201,7 +227,7 @@ int main()
 							break;
 						}
 
-						while (bid > customers.at(me).GetBalance() || bid < 0) {
+						while (bid > customers.at(me).GetBalance() || bid <= 0) {
 							cout << "\n";
 							std::cout << "Enter your bid correctly (write \"-1\" to exit): ";
 							std::cin >> bid;
@@ -242,7 +268,7 @@ int main()
 
 	}
 
-	writeToArcade();
+	writeToArcade(); // writting to file
 	writeToCasino();
 	writeToCustomers();
 	return 0;
@@ -261,8 +287,7 @@ void izvade() {
 }
 
 void writeToCustomers() {
-	std::ofstream file("users.txt", std::ios::trunc);
-	file.close();
+	std::ofstream file("users.txt", std::ios::trunc); // "std::ios::trunc" - file clear
 	std::ofstream file1("users.txt");
 
 	for (int i = 0; i < customers.size(); i++) {
@@ -278,11 +303,11 @@ void ReadCustomers() {
 	std::string line;
 	while (std::getline(file, line)) {
 		std::string delimiter = ":";
-		std::string username = line.substr(0, line.find(delimiter));
+		std::string username = line.substr(0, line.find(delimiter)); // reading username from start to delimiter -> ":"
+		line.erase(0, line.find(delimiter) + delimiter.length()); // delete info from start to delimiter
+		std::string password = line.substr(0, line.find(delimiter)); // reading password to second delimiter
 		line.erase(0, line.find(delimiter) + delimiter.length());
-		std::string password = line.substr(0, line.find(delimiter));
-		line.erase(0, line.find(delimiter) + delimiter.length());
-		int balance = std::stoi(line);
+		int balance = std::stoi(line); // reading remaining symbols (balance)
 		Customer info(balance, username, password);
 		customers.push_back(info);
 	}
@@ -363,6 +388,7 @@ void ReadArcade()
 
 	while (std::getline(file, line)) {
 		std::string delimiter = ":";
+
 		std::string name = line.substr(0, line.find(delimiter));
 		line.erase(0, line.find(delimiter) + delimiter.length());
 		std::string casinoname = line.substr(0, line.find(delimiter));
