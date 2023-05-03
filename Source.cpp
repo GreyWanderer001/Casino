@@ -103,32 +103,30 @@ int main()
 			}
 
 			else if (choice == 5) {
-
-				for (int i = 0; i < casinos.size(); i++)
-					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
-
-
-				std::cout << "In which Casino would you like to put arcade?: ";
+				
 				int Casinonum;
-				std::cin >> Casinonum;
 
+				std::cout << "In which Casino would you like to put arcade?: " << std::endl;
 				for (int i = 0; i < casinos.size(); i++)
 					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
-				std::cout << "Choose correct casino number: ";
+				std::cout << "-> ";
 				std::cin >> Casinonum;
+				Casinonum -= 1;
 
-				while (Casinonum > casinos.size() || Casinonum < 0) {
+				while (Casinonum >= casinos.size() || Casinonum < 0) {
+					std::cout << "Choose correct casino number: " << std::endl;
 					for (int i = 0; i < casinos.size(); i++)
 						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
-					std::cout << "Choose correct casino number: ";
+					std::cout << "-> ";
 					std::cin >> Casinonum;
+					Casinonum -= 1;
 				}
 
 				std::cout << "Enter Arcade name: ";
 				std::string Arcadename;
 				std::cin >> Arcadename;
 
-				casinos.at(Casinonum-1).CreateArcade(Arcadename);
+				casinos.at(Casinonum).CreateArcade(Arcadename);
 			}
 			else {
 				cout << "Invalid choice.\n";
@@ -144,17 +142,18 @@ int main()
 			std::cin >> choice;
 			cout << "\n";
 			if (choice == 1) {
+
 				std::cout << "Choose casino: " << std::endl;
 				for (int i = 0; i < casinos.size(); i++)
-					std::cout << i+1 << ". " << casinos.at(i).GetName() << std::endl;
+					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 				std::cout << "-> ";
 				std::cin >> choice3;
 				choice3 -= 1;
 
-				while (choice3 > casinos.size() || choice3 < 0) {
-					std::cout << "Choose casino: " << std::endl;
+				while (choice3 >= casinos.size() || choice3 < 0) {
+					std::cout << "Choose correct casino number: " << std::endl;
 					for (int i = 0; i < casinos.size(); i++)
-						std::cout << i+1 << ". " << casinos.at(i).GetName() << std::endl;
+						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 					std::cout << "-> ";
 					std::cin >> choice3;
 					choice3 -= 1;
@@ -242,16 +241,6 @@ int main()
 		break;
 
 	}
-
-
-
-
-
-
-
-
-
-
 
 	writeToArcade();
 	writeToCasino();
