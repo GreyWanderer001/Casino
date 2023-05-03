@@ -47,6 +47,11 @@ int main()
 			cout << "\n1. Register\n2. Login\n3. Exit\n";
 			cout << "-> ";
 			cin >> choice;
+			if (std::cin.fail())
+			{
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
 			cout << "\n";
 
 			if (choice == 1) {
@@ -125,7 +130,7 @@ int main()
 					cin.clear();
 					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				}
-			
+
 
 				while (balance <= 0) {
 					std::cout << "Enter correct balance (>0): ";
@@ -135,7 +140,7 @@ int main()
 						cin.clear();
 						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 					}
-					
+
 				}
 
 				Casino create(balance, name);
