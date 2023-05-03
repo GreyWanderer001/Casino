@@ -93,6 +93,11 @@ int main()
 				int balance;
 				std::cin >> balance;
 
+				while (balance <= 0) {
+					std::cout << "Enter correct balance (>0): ";
+					std::cin >> balance;
+				}
+
 				Casino create(balance, name);
 				casinos.push_back(create);
 			}
@@ -106,6 +111,18 @@ int main()
 				std::cout << "In which Casino would you like to put arcade?: ";
 				int Casinonum;
 				std::cin >> Casinonum;
+
+				for (int i = 0; i < casinos.size(); i++)
+					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+				std::cout << "Choose correct casino number: ";
+				std::cin >> Casinonum;
+
+				while (Casinonum > casinos.size() || Casinonum < 0) {
+					for (int i = 0; i < casinos.size(); i++)
+						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+					std::cout << "Choose correct casino number: ";
+					std::cin >> Casinonum;
+				}
 
 				std::cout << "Enter Arcade name: ";
 				std::string Arcadename;
