@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <conio.h>
@@ -6,6 +6,7 @@
 #include "Customer.h"
 #include "Casino.h"
 #include "Arcade.h"
+#include <limits>
 
 using namespace std;
 
@@ -115,13 +116,26 @@ int main()
 				std::string name;
 				std::cin >> name;
 
+
 				std::cout << "Enter Casino balance: ";
 				int balance;
 				std::cin >> balance;
+				if (std::cin.fail())
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				}
+			
 
 				while (balance <= 0) {
 					std::cout << "Enter correct balance (>0): ";
 					std::cin >> balance;
+					if (std::cin.fail())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					
 				}
 
 				Casino create(balance, name);
@@ -129,7 +143,7 @@ int main()
 			}
 
 			else if (choice == 5) {
-				
+
 				int Casinonum;
 
 				std::cout << "In which Casino would you like to put arcade?: " << std::endl;
@@ -137,6 +151,11 @@ int main()
 					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 				std::cout << "-> ";
 				std::cin >> Casinonum;
+				if (std::cin.fail())
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				}
 				Casinonum -= 1;
 
 				while (Casinonum >= casinos.size() || Casinonum < 0) {
@@ -145,6 +164,11 @@ int main()
 						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 					std::cout << "-> ";
 					std::cin >> Casinonum;
+					if (std::cin.fail())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
 					Casinonum -= 1;
 				}
 
@@ -174,6 +198,11 @@ int main()
 					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 				std::cout << "-> ";
 				std::cin >> choice3;
+				if (std::cin.fail())
+				{
+					cin.clear();
+					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				}
 				choice3 -= 1;
 
 				while (choice3 >= casinos.size() || choice3 < 0) {
@@ -182,6 +211,11 @@ int main()
 						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 					std::cout << "-> ";
 					std::cin >> choice3;
+					if (std::cin.fail())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
 					choice3 -= 1;
 				}
 
@@ -192,6 +226,11 @@ int main()
 					casinos.at(choice3).DisplayArcades();
 					std::cout << "-> ";
 					std::cin >> choice2;
+					if (std::cin.fail())
+					{
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
 					choice2 -= 1;
 
 					if (choice2 == -2) {
@@ -203,6 +242,11 @@ int main()
 						casinos.at(choice3).DisplayArcades();
 						std::cout << "-> ";
 						std::cin >> choice2;
+						if (std::cin.fail())
+						{
+							cin.clear();
+							cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						}
 						choice2 -= 1;
 						if (choice2 == -2) {
 							doublebreak = true;
@@ -219,7 +263,12 @@ int main()
 
 					while (true) {
 						cout << "\n";
-						std::cout <<"Enter your bid (write \"-1\" to exit): ";
+						std::cout << "Enter your bid (write \"-1\" to exit): ";
+						if (std::cin.fail())
+						{
+							cin.clear();
+							cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						}
 						std::cin >> bid;
 
 						if (bid == -1) {
@@ -230,6 +279,11 @@ int main()
 						while (bid > customers.at(me).GetBalance() || bid <= 0) {
 							cout << "\n";
 							std::cout << "Enter your bid correctly (write \"-1\" to exit): ";
+							if (std::cin.fail())
+							{
+								cin.clear();
+								cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+							}
 							std::cin >> bid;
 							if (bid == -1) {
 								doublebreak = true;
