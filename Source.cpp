@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <string>
 #include <conio.h>
@@ -6,7 +6,6 @@
 #include "Customer.h"
 #include "Casino.h"
 #include "Arcade.h"
-#include <limits>
 
 using namespace std;
 
@@ -47,39 +46,56 @@ int main()
 			cout << "\n1. Register\n2. Login\n3. Exit\n";
 			cout << "-> ";
 			cin >> choice;
-			if (std::cin.fail())
-			{
-				cin.clear();
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			}
 			cout << "\n";
 
 			if (choice == 1) {
 				cout << "Enter username: ";
 				cin >> username;
 				cout << "Enter password: ";
-				password = "";
-				char ch;
-				while (true) {
-					char ch = _getch();
-					if (ch == '\r') { // press enter
-						break;
-					}
-					else if (ch == '\b') { // press backspace
-						if (!password.empty()) {
-							password.pop_back();
-							cout << "\b \b"; // delete one symbol 
+
+				bool valid = false;
+				while (!valid) {
+					password = "";
+
+					while (true) {
+						char ch = _getch();
+						if (ch == '\r') { // Check for Enter key
+							cout << endl; // Output a newline to move to the next line
+							break;
+						}
+						else if (ch == '\b') { // Check for Backspace key
+							if (!password.empty()) {
+								password.pop_back();
+								cout << "\b \b"; // Output backspace, space, and backspace to erase the last character
+							}
+						}
+						else {
+							password += ch;
+							cout << "*";
 						}
 					}
+
+					if (password.length() >= 8) { // Check if the string is at least 8 characters long
+						for (char c : password) {
+							if (std::isupper(c)) { // Check if the character is an uppercase letter
+								valid = true;
+								break;
+							}
+						}
+					}
+
+					if (valid) {
+						break;
+					}
 					else {
-						password += ch;
-						cout << "*";
+						cout << "\nPassword must be at least 8 characters long and contain an uppercase letter.\n";
+						cout << "Enter password: ";
 					}
 				}
-
 				registerUser(username, password);
 				cout << endl;
 			}
+
 			else if (choice == 2) {
 				cout << "Enter username: ";
 				cin >> username;
@@ -121,26 +137,13 @@ int main()
 				std::string name;
 				std::cin >> name;
 
-
 				std::cout << "Enter Casino balance: ";
 				int balance;
 				std::cin >> balance;
-				if (std::cin.fail())
-				{
-					cin.clear();
-					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				}
-
 
 				while (balance <= 0) {
 					std::cout << "Enter correct balance (>0): ";
 					std::cin >> balance;
-					if (std::cin.fail())
-					{
-						cin.clear();
-						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					}
-
 				}
 
 				Casino create(balance, name);
@@ -148,7 +151,7 @@ int main()
 			}
 
 			else if (choice == 5) {
-
+				
 				int Casinonum;
 
 				std::cout << "In which Casino would you like to put arcade?: " << std::endl;
@@ -156,11 +159,6 @@ int main()
 					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 				std::cout << "-> ";
 				std::cin >> Casinonum;
-				if (std::cin.fail())
-				{
-					cin.clear();
-					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				}
 				Casinonum -= 1;
 
 				while (Casinonum >= casinos.size() || Casinonum < 0) {
@@ -169,11 +167,6 @@ int main()
 						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 					std::cout << "-> ";
 					std::cin >> Casinonum;
-					if (std::cin.fail())
-					{
-						cin.clear();
-						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					}
 					Casinonum -= 1;
 				}
 
@@ -203,11 +196,6 @@ int main()
 					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 				std::cout << "-> ";
 				std::cin >> choice3;
-				if (std::cin.fail())
-				{
-					cin.clear();
-					cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				}
 				choice3 -= 1;
 
 				while (choice3 >= casinos.size() || choice3 < 0) {
@@ -216,11 +204,6 @@ int main()
 						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 					std::cout << "-> ";
 					std::cin >> choice3;
-					if (std::cin.fail())
-					{
-						cin.clear();
-						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					}
 					choice3 -= 1;
 				}
 
@@ -231,11 +214,6 @@ int main()
 					casinos.at(choice3).DisplayArcades();
 					std::cout << "-> ";
 					std::cin >> choice2;
-					if (std::cin.fail())
-					{
-						cin.clear();
-						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					}
 					choice2 -= 1;
 
 					if (choice2 == -2) {
@@ -247,11 +225,6 @@ int main()
 						casinos.at(choice3).DisplayArcades();
 						std::cout << "-> ";
 						std::cin >> choice2;
-						if (std::cin.fail())
-						{
-							cin.clear();
-							cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						}
 						choice2 -= 1;
 						if (choice2 == -2) {
 							doublebreak = true;
@@ -268,12 +241,7 @@ int main()
 
 					while (true) {
 						cout << "\n";
-						std::cout << "Enter your bid (write \"-1\" to exit): ";
-						if (std::cin.fail())
-						{
-							cin.clear();
-							cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-						}
+						std::cout <<"Enter your bid (write \"-1\" to exit): ";
 						std::cin >> bid;
 
 						if (bid == -1) {
@@ -284,11 +252,6 @@ int main()
 						while (bid > customers.at(me).GetBalance() || bid <= 0) {
 							cout << "\n";
 							std::cout << "Enter your bid correctly (write \"-1\" to exit): ";
-							if (std::cin.fail())
-							{
-								cin.clear();
-								cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-							}
 							std::cin >> bid;
 							if (bid == -1) {
 								doublebreak = true;
