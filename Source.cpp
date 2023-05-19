@@ -11,7 +11,7 @@ using namespace std;
 
 void izvade();
 void ReadArcade();
-void ReadCasino();
+void ReadCasino();	
 void writeToArcade();
 void ReadCustomers();
 void writeToCasino();
@@ -29,9 +29,11 @@ int choice3 = 0;
 int bid;
 bool doublebreak = false; // to exit from two loops at once
 
+
 int main()
 {
-
+	
+	
 	izvade();
 
 	ReadCasino();
@@ -44,9 +46,12 @@ int main()
 	while (me < 0) {
 		while (choice != 3) {
 			cout << "\n1. Register\n2. Login\n3. Exit\n";
+
 			cout << "-> ";
 			cin >> choice;
 			cout << "\n";
+			cin.clear();//clears state of cin
+			cin.ignore(INT_MAX, '\n'); // this clears console
 
 			if (choice == 1) {
 				cout << "Enter username: ";
@@ -92,6 +97,9 @@ int main()
 						cout << "Enter password: ";
 					}
 				}
+				for (int i = 0; (i < 100 && password[i] != '\0'); i++)
+					password[i] = password[i] + 2; //the key for encryption is 3 that is added to ASCII value
+
 				registerUser(username, password);
 				cout << endl;
 			}
@@ -101,7 +109,6 @@ int main()
 				cin >> username;
 				cout << "Enter password: ";
 				password = "";
-				char c;
 				while (true) {
 					char ch = _getch();
 					if (ch == '\r') {
@@ -119,6 +126,9 @@ int main()
 					}
 				}
 
+
+				for (int i = 0; (i < 100 && password[i] != '\0'); i++)
+					password[i] = password[i] + 2; //the key for encryption is 3 that is added to ASCII value
 				me = checkUser(username, password);
 				if (me > -1) {
 					choice = 3;
@@ -132,50 +142,7 @@ int main()
 				break;
 			}
 
-			else if (choice == 4) {
-				std::cout << "Enter Casino name: ";
-				std::string name;
-				std::cin >> name;
-
-				std::cout << "Enter Casino balance: ";
-				int balance;
-				std::cin >> balance;
-
-				while (balance <= 0) {
-					std::cout << "Enter correct balance (>0): ";
-					std::cin >> balance;
-				}
-
-				Casino create(balance, name);
-				casinos.push_back(create); // push in new created casino to casino vector
-			}
-
-			else if (choice == 5) {
-				
-				int Casinonum;
-
-				std::cout << "In which Casino would you like to put arcade?: " << std::endl;
-				for (int i = 0; i < casinos.size(); i++)
-					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
-				std::cout << "-> ";
-				std::cin >> Casinonum;
-				Casinonum -= 1;
-
-				while (Casinonum >= casinos.size() || Casinonum < 0) {
-					std::cout << "Choose correct casino number: " << std::endl;
-					for (int i = 0; i < casinos.size(); i++)
-						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
-					std::cout << "-> ";
-					std::cin >> Casinonum;
-					Casinonum -= 1;
-				}
-
-				std::cout << "Enter Arcade name: ";
-				std::string Arcadename;
-				std::cin >> Arcadename;
-
-				casinos.at(Casinonum).CreateArcade(Arcadename);
-			}
+			
 			else {
 				cout << "Invalid choice.\n";
 			}
@@ -196,6 +163,8 @@ int main()
 					std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 				std::cout << "-> ";
 				std::cin >> choice3;
+				cin.clear();//clears state of cin
+				cin.ignore(INT_MAX, '\n'); // this clears console
 				choice3 -= 1;
 
 				while (choice3 >= casinos.size() || choice3 < 0) {
@@ -204,6 +173,8 @@ int main()
 						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 					std::cout << "-> ";
 					std::cin >> choice3;
+					cin.clear();//clears state of cin
+					cin.ignore(INT_MAX, '\n'); // this clears console
 					choice3 -= 1;
 				}
 
@@ -214,6 +185,8 @@ int main()
 					casinos.at(choice3).DisplayArcades();
 					std::cout << "-> ";
 					std::cin >> choice2;
+					cin.clear();//clears state of cin
+					cin.ignore(INT_MAX, '\n'); // this clears console
 					choice2 -= 1;
 
 					if (choice2 == -2) {
@@ -225,6 +198,8 @@ int main()
 						casinos.at(choice3).DisplayArcades();
 						std::cout << "-> ";
 						std::cin >> choice2;
+						cin.clear();//clears state of cin
+						cin.ignore(INT_MAX, '\n'); // this clears console
 						choice2 -= 1;
 						if (choice2 == -2) {
 							doublebreak = true;
@@ -243,6 +218,8 @@ int main()
 						cout << "\n";
 						std::cout <<"Enter your bid (write \"-1\" to exit): ";
 						std::cin >> bid;
+						cin.clear();//clears state of cin
+						cin.ignore(INT_MAX, '\n'); // this clears console
 
 						if (bid == -1) {
 							doublebreak = true;
@@ -253,6 +230,8 @@ int main()
 							cout << "\n";
 							std::cout << "Enter your bid correctly (write \"-1\" to exit): ";
 							std::cin >> bid;
+							cin.clear();//clears state of cin
+							cin.ignore(INT_MAX, '\n'); // this clears console
 							if (bid == -1) {
 								doublebreak = true;
 								break;
@@ -281,8 +260,71 @@ int main()
 
 
 			}
-			else {
+			else if (choice == 4) {
+				if (customers.at(me).GetName() == "admin") {
+					std::cout << "Enter Casino name: ";
+					std::string name;
+					std::cin >> name;
+
+					std::cout << "Enter Casino balance: ";
+					int balance;
+					std::cin >> balance;
+					cin.clear();//clears state of cin
+					cin.ignore(INT_MAX, '\n'); // this clears console
+
+					while (balance <= 0) {
+						std::cout << "Enter correct balance (>0): ";
+						std::cin >> balance;
+
+						cin.clear();//clears state of cin
+						cin.ignore(INT_MAX, '\n'); // this clears console
+					}
+
+					Casino create(balance, name);
+					casinos.push_back(create); // push in new created casino to casino vector
+				}
+				
+			}
+
+			else if (choice == 5) {
+				if (customers.at(me).GetName() == "admin") {
+					int Casinonum;
+
+					std::cout << "In which Casino would you like to put arcade?: " << std::endl;
+					for (int i = 0; i < casinos.size(); i++)
+						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+					std::cout << "-> ";
+					std::cin >> Casinonum;
+					cin.clear();//clears state of cin
+					cin.ignore(INT_MAX, '\n'); // this clears console
+					Casinonum -= 1;
+
+					while (Casinonum >= casinos.size() || Casinonum < 0) {
+						std::cout << "Choose correct casino number: " << std::endl;
+						for (int i = 0; i < casinos.size(); i++)
+							std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+						std::cout << "-> ";
+						std::cin >> Casinonum;
+						cin.clear();//clears state of cin
+						cin.ignore(INT_MAX, '\n'); // this clears console
+						Casinonum -= 1;
+					}
+
+					std::cout << "Enter Arcade name: ";
+					std::string Arcadename;
+					std::cin >> Arcadename;
+
+					casinos.at(Casinonum).CreateArcade(Arcadename);
+				}
+				
+			}
+			else if (choice == 0) {
 				break;
+			}
+			else {
+				std::cout << "Choose correct option: ";
+
+
 			}
 
 		}
@@ -301,22 +343,42 @@ void izvade() {
 	system("CLS");
 	std::cout << "$$$-----| Welcome to Casino R&D |-----$$$\n";
 	if (me > -1) {
-		std::cout << "User: " << customers.at(me).GetName() << " | Balance: " << customers.at(me).GetBalance() << "\n";
+		std::cout << "User: " << customers.at(me).GetName() << " | Balance: " << customers.at(me).GetBalance() << "$\n";
 	}
 	else {
 		std::cout << "User: - | Balance: - \n";
 	}
 }
 
-void writeToCustomers() {
-	std::ofstream file("users.txt", std::ios::trunc); // "std::ios::trunc" - file clear
-	std::ofstream file1("users.txt");
-
+void registerUser(string username, string password) {
+	bool parbaude = false;
 	for (int i = 0; i < customers.size(); i++) {
-		file1 << customers.at(i).GetName() << ":" << customers.at(i).GetPass() << ":" << customers.at(i).GetBalance() << std::endl;
+		if (username == customers.at(i).GetName()) {
+			parbaude = true;
+			cout << "\n";
+			std::cout << "\nUser already exsist!";
+		}
 	}
+	if (parbaude) {
+	}
+	else {
+		Customer registred(100, username, password);
+		customers.push_back(registred);
+		ofstream outfile("users.txt", ios::app);
+		outfile << username << ":" << password << ":" << 100 << endl;
+		outfile.close();
+		cout << "\n";
+		cout << "\nThank you for registration in our Casino!";
+	}
+}
 
-	file1.close();
+int checkUser(string username, string password) {
+	for (int i = 0; i < customers.size(); i++) {
+		if (username == customers.at(i).GetName() && customers.at(i).GetPass() == password) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 void ReadCustomers() {
@@ -337,41 +399,6 @@ void ReadCustomers() {
 	file.close();
 }
 
-void registerUser(string username, string password) {
-	bool parbaude = false;
-	for (int i = 0; i < customers.size(); i++) {
-		if (username == customers.at(i).GetName()) {
-			parbaude = true;
-			cout << "\n";
-			std::cout << "\nUser already exsist!";
-		}
-	}
-	if (parbaude) {
-
-	}
-	else {
-		Customer registred(100, username, password);
-		customers.push_back(registred);
-		ofstream outfile("users.txt", ios::app);
-		outfile << username << ":" << password << ":" << 100 << endl;
-		outfile.close();
-		cout << "\n";
-		cout << "\nThank you for registration in our Casino!";
-	}
-
-
-}
-
-int checkUser(string username, string password) {
-	for (int i = 0; i < customers.size(); i++) {
-		if (username == customers.at(i).GetName() && customers.at(i).GetPass() == password) {
-			return i;
-
-		}
-	}
-	return -1;
-}
-
 void ReadCasino()
 {
 	std::ifstream file("casino.txt");
@@ -388,18 +415,6 @@ void ReadCasino()
 
 	file.close();
 
-}
-
-void writeToCasino() {
-	std::ofstream file("casino.txt", std::ios::trunc);
-	file.close();
-	std::ofstream file1("casino.txt");
-
-	for (int i = 0; i < casinos.size(); i++) {
-		file1 << casinos.at(i).GetName() << ":" << casinos.at(i).GetBalance() << std::endl;
-	}
-
-	file1.close();
 }
 
 void ReadArcade()
@@ -435,6 +450,29 @@ void writeToArcade()
 		for (int y = 0; y < casinos.at(i).GetArcadesSize(); y++) {
 			file1 << casinos.at(i).GetArcade(y).GetName() << ":" << casinos.at(i).GetArcade(y).GetCasinoName() << std::endl;
 		}
+	}
+
+	file1.close();
+}
+
+void writeToCasino() {
+	std::ofstream file("casino.txt", std::ios::trunc);
+	file.close();
+	std::ofstream file1("casino.txt");
+
+	for (int i = 0; i < casinos.size(); i++) {
+		file1 << casinos.at(i).GetName() << ":" << casinos.at(i).GetBalance() << std::endl;
+	}
+
+	file1.close();
+}
+
+void writeToCustomers() {
+	std::ofstream file("users.txt", std::ios::trunc); // "std::ios::trunc" - file clear
+	std::ofstream file1("users.txt");
+
+	for (int i = 0; i < customers.size(); i++) {
+		file1 << customers.at(i).GetName() << ":" << customers.at(i).GetPass() << ":" << customers.at(i).GetBalance() << std::endl;
 	}
 
 	file1.close();
