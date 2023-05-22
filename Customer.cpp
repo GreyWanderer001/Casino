@@ -55,3 +55,38 @@ std::string Customer::GetEmail() {
 std::string Customer::GetPhone() {
 	return this->phone;
 }
+
+
+
+
+
+
+
+void Customer::SetUsername(std::string newVar) {
+	this->username = newVar;
+}
+
+
+void Customer::SetName(std::string newVar) {
+	this->name = newVar;
+}
+
+void Customer::SetSurname(std::string newVar) {
+	this->surname = newVar;
+}
+
+void Customer::SetAge(int newVar) {
+	this->age = newVar;
+}
+
+void Customer::SetEmail(std::string newVar) {
+	this->email = newVar;
+}
+
+void Customer::SetPhone(std::string newVar) {
+	this->phone = newVar;
+}
+
+void Customer::SetBalance(int newVar) {
+	this->phone = newVar;
+}

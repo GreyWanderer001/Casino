@@ -14,10 +14,13 @@ private:
 	int balance = 0;
 	std::string name = "";
 	std::vector<Arcade> arcades;
+	std::string adress;
+	int floors;
+	double sqm;
 
 
 public:
-	Casino(int balance, std::string name);
+	Casino(int balance, std::string name, std::string adress, int floors, double sqm);
 	void Display();
 	void CreateArcade(std::string name);
 	Arcade GetArcade(int index);
@@ -27,6 +30,16 @@ public:
 	void DisplayArcades();
 	int GetArcadesSize();
 	std::string GetName();
+	std::string GetAdress();
+	int GetFloors();
+	int GetSqm();
+
+	void SetName(std::string newVar);
+	void SetAdress(std::string newVar);
+	void SetFloors(int newVar);
+	void SetSqm(double newVar);
+	void SetBalance(int newVar);
+
 
 
 

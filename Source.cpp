@@ -15,11 +15,12 @@ void changeUserData(int index);
 
 void izvade();
 void ReadArcade();
-void ReadCasino();	
+void ReadCasino();
 void writeToArcade();
 void ReadCustomers();
 void writeToCasino();
 void writeToCustomers();
+void changeCasinoData(int index);
 int checkUser(string username, string password);
 void registerUser(string username, string password, string name, string surname, int age, string email, string phone);
 
@@ -53,7 +54,7 @@ int main()
 {
 	std::string adminUsername = "admin";
 	std::string adminPassword = "cfokp";
-	
+
 	izvade();
 
 	ReadCasino();
@@ -67,7 +68,9 @@ int main()
 	string email;
 	string phone;
 
-	int age;
+	int age = 0;
+
+
 
 
 	while (me < 0) {
@@ -88,8 +91,20 @@ int main()
 				std::cout << "Enter Your Surname: ";
 				std::cin >> surname;
 
-				std::cout << "How old are You?: ";
-				std::cin >> age;
+
+				while (true) {
+
+					if (age < 18) {
+						std::cout << "How old are You?: ";
+						std::cin >> age;
+						std::cin.clear();//clears state of cin
+						std::cin.ignore(INT_MAX, '\n'); // this clears console
+					}
+					else {
+						break;
+					}
+				}
+
 
 				while (true) {
 					if (isEmailAddressValid(email) != true) {
@@ -190,21 +205,22 @@ int main()
 					choice = 3;
 
 				}
+				else {
+					std::cout << "\nIncorrect login or password!\n";
+				}
 
 				if (username == adminUsername && password == adminPassword) {
 					me = -2; // Set a special value for the admin
 					choice = 3;
 				}
 
-				else {
-					std::cout << "\nIncorrect login or password!\n";
-				}
+				
 			}
 			else if (choice == 3) {
 				break;
 			}
 
-			
+
 			else {
 				std::cout << "Invalid choice.\n";
 			}
@@ -212,13 +228,16 @@ int main()
 
 		izvade();
 
-		std::cout << me;
-
 		while (me > -1 || me == -2) { // Allow admin to access the options
 
 
+			if (me == -2) {
+				std::cout << "\nGo to the casino - 1\nExit - 0\nAdmin settings - 3" << std::endl;
+			}
+			else {
+				std::cout << "\nGo to the casino - 1\nExit - 0" << std::endl;
 
-			std::cout << "\nGo to the casino - 1\nExit - 0\nAdmin settings - 3 (only for admin)" << std::endl;
+			}
 			std::cout << "-> ";
 			std::cin >> choice;
 			std::cout << "\n";
@@ -326,81 +345,158 @@ int main()
 			else if (choice == 3 && me == -2) {
 				// Admin options
 				std::cout << "\nAdmin Options:\n";
-				std::cout << "1. Delete user\n";
-				std::cout << "2. Change user data\n";
-				std::cout << "3. Search users\n";
-				std::cout << "4. Sort users\n";
-				std::cout << "5. Creat Casino\n";
-				std::cout << "6. Creat Arcade\n";
+				std::cout << "1. Casino options\n";
+				std::cout << "2. Arcades options\n";
+				std::cout << "3. Users options\n";
 				std::cout << "0. Exit\n";
 				std::cout << "-> ";
 				std::cin >> choice;
-				std::cout << "\n";
+				std::cin.clear();//clears state of cin
+				std::cin.ignore(INT_MAX, '\n'); // this clears console
 
 				if (choice == 1) {
-					int index;
-					std::cout << "Which user would yo like to delete?" << std::endl;
-					for (int i = 0; i < customers.size(); i++)
-						std::cout << i + 1 << ". " << customers.at(i).GetUsername() << std::endl;
-					std::cout << "-> ";
-					std::cin >> index;
-					deleteUser(index-1);
-
-				}
-				else if (choice == 2) {
-					int index;
-					std::cout << "Which user would yo like to edit?" << std::endl;
-					for (int i = 0; i < customers.size(); i++)
-						std::cout << i + 1 << ". " << customers.at(i).GetUsername() << std::endl;
-					std::cout << "-> ";
-					std::cin >> index;
-					changeUserData(index - 1);
-
-				}
-				else if (choice == 3) {
-					// Search users code
-
-				}
-				else if (choice == 4) {
-					// Sort users code
-
-				}
-				else if (choice == 5) {
-					std::cout << "Enter Casino name: ";
-					std::string name;
-					std::cin >> name;
-
-					std::cout << "Enter Casino balance: ";
-					int balance;
-					std::cin >> balance;
+					std::cout << "1.Create Casino \n2. Delete Casino\n3. Change Casino data\n4. Search Casino\n 5. Sort Casino";
+					std::cin >> choice;
 					std::cin.clear();//clears state of cin
 					std::cin.ignore(INT_MAX, '\n'); // this clears console
 
-					while (balance <= 0) {
-						std::cout << "Enter correct balance (>0): ";
-						std::cin >> balance;
+					if (choice == 1) {
 
+						std::cout << "Enter Casino name: ";
+						std::string name;
+						std::cin >> name;
+
+						while (name.length() < 1) {
+							std::cout << "Enter Casino adress: ";
+							std::cin >> name;
+						}
+
+						std::cout << "Enter Casino balance: ";
+						int balance;
+						std::cin >> balance;
 						std::cin.clear();//clears state of cin
 						std::cin.ignore(INT_MAX, '\n'); // this clears console
+
+						while (balance <= 0) {
+							std::cout << "Enter correct balance (>0): ";
+							std::cin >> balance;
+
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+						}
+
+						std::cout << "Enter Casino adress: ";
+						std::string adress;
+						std::cin >> adress;
+
+						while (adress.length() < 1) {
+							std::cout << "Enter Casino adress: ";
+							std::cin >> adress;
+						}
+
+						std::cout << "Enter Casino floors: ";
+						int floors;
+						std::cin >> floors;
+						std::cin.clear();//clears state of cin
+						std::cin.ignore(INT_MAX, '\n'); // this clears console
+
+						while (floors < 1) {
+							std::cout << "Enter correct floors (>0): ";
+							std::cin >> floors;
+
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+						}
+
+						std::cout << "Enter Casino sqm: ";
+						double sqm;
+						std::cin >> sqm;
+						std::cin.clear();//clears state of cin
+						std::cin.ignore(INT_MAX, '\n'); // this clears console
+
+						while (sqm <= 0.0) {
+							std::cout << "Enter correct sqm (>0): ";
+							std::cin >> sqm;
+
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+						}
+
+
+
+						Casino create(balance, name, adress, floors, sqm);
+						casinos.push_back(create); // push in new created casino to casino vector
 					}
 
-					Casino create(balance, name);
-					casinos.push_back(create); // push in new created casino to casino vector
-				}
-				else if (choice == 6) {
-					int Casinonum;
+					if (choice == 2) {
+						std::cout << "Choose casino: " << std::endl;
+						for (int i = 0; i < casinos.size(); i++)
+							std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+						std::cout << "-> ";
+						std::cin >> choice3;
+						std::cin.clear();//clears state of cin
+						std::cin.ignore(INT_MAX, '\n'); // this clears console
+						choice3 -= 1;
+						while (choice3 >= casinos.size() || choice3 < 0) {
+							std::cout << "Choose correct casino number: " << std::endl;
+							for (int i = 0; i < casinos.size(); i++)
+								std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+							std::cout << "-> ";
+							std::cin >> choice3;
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+							choice3 -= 1;
+						}
 
-					std::cout << "In which Casino would you like to put arcade?: " << std::endl;
-					for (int i = 0; i < casinos.size(); i++)
-						std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
-					std::cout << "-> ";
-					std::cin >> Casinonum;
+						casinos.erase(casinos.begin() + choice3);
+						std::cout << "casino deleted successfully!" << std::endl;
+
+					}
+
+					if (choice == 3) {
+						int index;
+						std::cout << "Which Casino would you like to edit?" << std::endl;
+						for (int i = 0; i < casinos.size(); i++)
+							std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+						std::cout << "-> ";
+						std::cin >> index;
+						changeCasinoData(index - 1);
+						
+
+					}
+
+					if (choice == 4) {
+						int index;
+						std::cout << "Which Casino would you like to view?" << std::endl;
+						for (int i = 0; i < casinos.size(); i++)
+							std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+						std::cout << "-> ";
+						std::cin >> index;
+						changeCasinoData(index - 1);
+
+					}
+
+					if (choice == 5) {
+
+
+					}
+					else {
+						std::cout << "Choose correct option: ";
+					}
+
+		
+				}
+
+				else if (choice == 2) {
+					std::cout << "1. Create Arcade\n";
+					std::cin >> choice;
 					std::cin.clear();//clears state of cin
 					std::cin.ignore(INT_MAX, '\n'); // this clears console
-					Casinonum -= 1;
 
-					while (Casinonum >= casinos.size() || Casinonum < 0) {
-						std::cout << "Choose correct casino number: " << std::endl;
+					if (choice == 6) {
+						int Casinonum;
+
+						std::cout << "In which Casino would you like to put arcade?: " << std::endl;
 						for (int i = 0; i < casinos.size(); i++)
 							std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 						std::cout << "-> ";
@@ -408,28 +504,85 @@ int main()
 						std::cin.clear();//clears state of cin
 						std::cin.ignore(INT_MAX, '\n'); // this clears console
 						Casinonum -= 1;
+
+						while (Casinonum >= casinos.size() || Casinonum < 0) {
+							std::cout << "Choose correct casino number: " << std::endl;
+							for (int i = 0; i < casinos.size(); i++)
+								std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
+							std::cout << "-> ";
+							std::cin >> Casinonum;
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+							Casinonum -= 1;
+						}
+
+						std::cout << "Enter Arcade name: ";
+						std::string Arcadename;
+						std::cin >> Arcadename;
+
+						casinos.at(Casinonum).CreateArcade(Arcadename);
 					}
+				}
+				else if (choice == 3) {
+					std::cout << "\n1. Delete user\n";
+					std::cout << "2. Change user data\n";
+					std::cout << "3. Search users\n";
+					std::cout << "4. Sort users\n";
+					std::cout << "0. Exit\n";
+					std::cout << "-> ";
+					std::cin >> choice;
+					std::cout << "\n";
 
-					std::cout << "Enter Arcade name: ";
-					std::string Arcadename;
-					std::cin >> Arcadename;
+					if (choice == 1) {
+						int index;
+						std::cout << "Which user would you like to delete?" << std::endl;
+						for (int i = 0; i < customers.size(); i++)
+							std::cout << i + 1 << ". " << customers.at(i).GetUsername() << std::endl;
+						std::cout << "-> ";
+						std::cin >> index;
+						deleteUser(index - 1);
 
-					casinos.at(Casinonum).CreateArcade(Arcadename);
+					}
+					else if (choice == 2) {
+						int index;
+						std::cout << "Which user would you like to edit?" << std::endl;
+						for (int i = 0; i < customers.size(); i++)
+							std::cout << i + 1 << ". " << customers.at(i).GetUsername() << std::endl;
+						std::cout << "-> ";
+						std::cin >> index;
+						changeUserData(index - 1);
+
+					}
+					else if (choice == 3) {
+						// Search users code
+
+					}
+					else if (choice == 4) {
+						// Sort users code
+
+					}
+					else if (choice == 0) {
+						break;
+					}
+					else {
+						std::cout << "Choose correct option: ";
+					}
 				}
 				else if (choice == 0) {
 					break;
 				}
 				else {
-					std::cout << "Choose correct option: ";
+					std::cout << "Choice correct option: ";
 				}
+
 
 			}
 
 			else if (choice == 5) {
 				if (customers.at(me).GetName() == "admin") {
-					
+
 				}
-				
+
 			}
 			else if (choice == 0) {
 				break;
@@ -478,7 +631,7 @@ void registerUser(string username, string password, string name, string surname,
 		Customer registred(100, username, password, name, surname, age, email, phone);
 		customers.push_back(registred);
 		ofstream outfile("users.txt", ios::app);
-		outfile << username << ":" << password << ":" << 100 << ":" << name  << ":" << surname << ":" << age << ":" << email << ":" << phone << endl;
+		outfile << username << ":" << password << ":" << 100 << ":" << name << ":" << surname << ":" << age << ":" << email << ":" << phone << endl;
 		outfile.close();
 		std::cout << "\n";
 		std::cout << "\nThank you for registration in our Casino!";
@@ -503,28 +656,28 @@ void ReadCustomers() {
 	while (std::getline(file, line)) {
 		std::string delimiter = ":";
 
-		std::string username = line.substr(0, line.find(delimiter)); // reading username from start to delimiter -> ":"
-		line.erase(0, line.find(delimiter) + delimiter.length()); // delete info from start to delimiter
+		std::string username = line.substr(0, line.find(delimiter)); 
+		line.erase(0, line.find(delimiter) + delimiter.length()); 
 
-		std::string password = line.substr(0, line.find(delimiter)); // reading password to second delimiter
+		std::string password = line.substr(0, line.find(delimiter)); 
 		line.erase(0, line.find(delimiter) + delimiter.length());
 
 		string balance = line.substr(0, line.find(delimiter));
 		line.erase(0, line.find(delimiter) + delimiter.length());
 
-		std::string name = line.substr(0, line.find(delimiter)); // reading password to second delimiter
+		std::string name = line.substr(0, line.find(delimiter)); 
 		line.erase(0, line.find(delimiter) + delimiter.length());
 
-		std::string surname = line.substr(0, line.find(delimiter)); // reading password to second delimiter
+		std::string surname = line.substr(0, line.find(delimiter)); 
 		line.erase(0, line.find(delimiter) + delimiter.length());
 
-		std::string age = line.substr(0, line.find(delimiter)); // reading password to second delimiter
+		std::string age = line.substr(0, line.find(delimiter)); 
 		line.erase(0, line.find(delimiter) + delimiter.length());
 
-		std::string email = line.substr(0, line.find(delimiter)); // reading password to second delimiter
+		std::string email = line.substr(0, line.find(delimiter)); 
 		line.erase(0, line.find(delimiter) + delimiter.length());
 
-		std::string phone = line; // reading remaining symbols (phone)
+		std::string phone = line; 
 
 
 		Customer info(stoi(balance), username, password, name, surname, stoi(age), email, phone);
@@ -541,10 +694,26 @@ void ReadCasino()
 	std::string line;
 
 	while (std::getline(file, line)) {
-		size_t delimiter_pos = line.find(':');
-		std::string name = line.substr(0, delimiter_pos);
-		int balance = std::stod(line.substr(delimiter_pos + 1));
-		Casino info(balance, name);
+
+
+		std::string delimiter = ":";
+
+		std::string balance = line.substr(0, line.find(delimiter));
+		line.erase(0, line.find(delimiter) + delimiter.length()); 
+
+		std::string name = line.substr(0, line.find(delimiter)); 
+		line.erase(0, line.find(delimiter) + delimiter.length());
+
+		string adress = line.substr(0, line.find(delimiter));
+		line.erase(0, line.find(delimiter) + delimiter.length());
+
+		std::string floors = line.substr(0, line.find(delimiter)); 
+		line.erase(0, line.find(delimiter) + delimiter.length());
+
+		std::string sqm  = line; 
+
+
+		Casino info(stoi(balance), name, adress, stoi(floors), stod(sqm));
 		casinos.push_back(info);
 	}
 
@@ -596,7 +765,7 @@ void writeToCasino() {
 	std::ofstream file1("casino.txt");
 
 	for (int i = 0; i < casinos.size(); i++) {
-		file1 << casinos.at(i).GetName() << ":" << casinos.at(i).GetBalance() << std::endl;
+		file1 << casinos.at(i).GetName() << ":" << casinos.at(i).GetBalance() << ":" << casinos.at(i).GetAdress() << ":" << casinos.at(i).GetFloors() << ":" << casinos.at(i).GetSqm() << std::endl;
 	}
 
 	file1.close();
@@ -630,15 +799,35 @@ void changeUserData(int index)
 	if (index >= 0 && index < customers.size()) {
 
 		std::cout << "\nCurrent user data!\n";
-		std::cout << "Username: " << customers.at(index).GetUsername() << "\n";
-		std::cout << "Balance: " << customers.at(index).GetBalance() << "\n";
 		std::cout << "Name: " << customers.at(index).GetName() << "\n";
 		std::cout << "Surname: " << customers.at(index).GetSurname() << "\n";
 		std::cout << "Age: " << customers.at(index).GetAge() << "\n";
 		std::cout << "Email: " << customers.at(index).GetEmail() << "\n";
 		std::cout << "Phone: " << customers.at(index).GetPhone() << "\n";
+		std::cout << "Username: " << customers.at(index).GetUsername() << "\n";
+		std::cout << "Balance: " << customers.at(index).GetBalance() << "\n";
 
 		std::cout << "\nEnter new data!\n";
+
+		string name;
+		string surname;
+		int age;
+		string email;
+		string phone;
+		string username;
+		int balance;
+
+		std::cin >> name >> surname >> age >> email >> phone >> username >> balance;
+
+
+		customers.at(index).SetName(name);
+		customers.at(index).SetSurname(surname);
+		customers.at(index).SetAge(age);
+		customers.at(index).SetEmail(email);
+		customers.at(index).SetPhone(phone);
+		customers.at(index).SetUsername(username);
+		customers.at(index).SetBalance(balance);
+
 
 
 		writeToCustomers();
@@ -646,6 +835,45 @@ void changeUserData(int index)
 	}
 	else {
 		std::cout << "\nInvalid user index.\n";
+	}
+}
+
+void changeCasinoData(int index)
+{
+	if (index >= 0 && index < casinos.size()) {
+
+
+		std::cout << "\nCurrent user data!\n";
+		std::cout << "Name: " << casinos.at(index).GetName() << "\n";
+		std::cout << "Adress: " << casinos.at(index).GetAdress() << "\n";
+		std::cout << "Floors: " << casinos.at(index).GetFloors() << "\n";
+		std::cout << "Sqm: " << casinos.at(index).GetSqm() << "\n";
+		std::cout << "Balance: " << customers.at(index).GetBalance() << "\n";
+
+		std::cout << "\nEnter new data!\n";
+
+		string name;
+		string adress;
+		int floors;
+		double sqm;
+		int balance;
+
+		std::cin >> name >> adress >> floors >> sqm >> balance;
+
+
+		casinos.at(index).SetName(name);
+		casinos.at(index).SetAdress(adress);
+		casinos.at(index).SetFloors(floors);
+		casinos.at(index).SetSqm(sqm);
+		casinos.at(index).SetBalance(balance);
+
+
+
+		writeToCasino();
+		std::cout << "\nCasino data changed successfully.\n";
+	}
+	else {
+		std::cout << "\nInvalid Casino index.\n";
 	}
 }
 
