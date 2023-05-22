@@ -3,18 +3,19 @@
 
 
 
-Customer::Customer(int balance, std::string name, std::string password) { // constructor
+Customer::Customer(int balance, std::string username, std::string password, std::string name, std::string surname, int age, std::string email, std::string phone) {
 	this->balance = balance;
-	this->name = name;
+	this->username = username;
 	this->password = password;
-
+	this->name = name;
+	this->surname = surname;
+	this->age = age;
+	this->email = email;
+	this->phone = phone;
 }
 
-void Customer::Display() { //display all fields
-	std::cout << this->balance << " " << this->name << " " << this->password << std::endl;
-}
-void Customer::ChangeBalance(int newbalance) { // change customer`s balance
-	if (newbalance < 0 && this->balance < std::abs(newbalance)) { // if newbalance is < 0
+void Customer::ChangeBalance(int newbalance) {
+	if (newbalance < 0 && this->balance < std::abs(newbalance)) {
 		this->balance = balance;
 	}
 	else {
@@ -23,14 +24,34 @@ void Customer::ChangeBalance(int newbalance) { // change customer`s balance
 	}
 }
 
-int Customer::GetBalance() { // get customer balance
+int Customer::GetBalance() {
 	return this->balance;
 }
 
-std::string Customer::GetName() { // get customer name
+std::string Customer::GetUsername() {
+	return this->username;
+}
+
+std::string Customer::GetPass() {
+	return this->password;
+}
+
+std::string Customer::GetName() {
 	return this->name;
 }
 
-std::string Customer::GetPass() { // get customer password
-	return this->password;
+std::string Customer::GetSurname() {
+	return this->surname;
+}
+
+int Customer::GetAge() {
+	return this->age;
+}
+
+std::string Customer::GetEmail() {
+	return this->email;
+}
+
+std::string Customer::GetPhone() {
+	return this->phone;
 }

@@ -9,36 +9,36 @@ Arcade::Arcade(std::string name, Casino* casino) {
 	this->casino = casino;
 }
 
-void Arcade::Display() { // display arcade
-	std::cout <<   this->GameName   << std::endl;
+void Arcade::Display() {
+	std::cout << this->GameName << std::endl;
 }
 
-void Arcade::Play(Customer &customer, int bid) { // Customer plays casino
-	if (bid > this->casino->GetBalance()) { // if casino don`t have enough money
+void Arcade::Play(Customer &customer, int bid) {
+	if (bid > this->casino->GetBalance()) {
 		std::cout << "\nCasino dont have this amount of money!\n" << std::endl;
 	}
 	else {
-		if (customer.GetBalance() < bid) { // if customer don`t have enough money
+		if (customer.GetBalance() < bid) {
 			std::cout << "\nInsufficient funds\n" << std::endl;
 		}
 		else {
-			srand(time(NULL)); // random seed
+			srand(time(NULL));
 			int random = rand() % 2 + 1;
-			if (random == 1) { // customer lose
+			if (random == 1) {
 				customer.ChangeBalance(-bid);
 				this->casino->ChangeBalance(bid);
-				system("CLS"); // clear console
+				system("CLS");
 				std::cout << "$$$-----| Welcome to Casino R&D |-----$$$\n";
-				std::cout << "User: " << customer.GetName() << " | Balance: " << customer.GetBalance() << "\n";
+				std::cout << "User: " << customer.GetUsername() << " | Balance: " << customer.GetBalance() << "$\n";
 				std::cout << "\n";
 				std::cout << "You lose";
 			}
-			else { // customer win
+			else {
 				customer.ChangeBalance(bid);
 				this->casino->ChangeBalance(-bid);
-				system("CLS"); // clear console
+				system("CLS");
 				std::cout << "$$$-----| Welcome to Casino R&D |-----$$$\n";
-				std::cout << "User: " << customer.GetName() << " | Balance: " << customer.GetBalance() << "\n";
+				std::cout << "User: " << customer.GetUsername() << " | Balance: " << customer.GetBalance() << "$\n";
 				std::cout << "\n";
 				std::cout << "You won";
 			}
@@ -50,10 +50,10 @@ void Arcade::Play(Customer &customer, int bid) { // Customer plays casino
 	
 }
 
-std::string Arcade::GetName() { // get arcade name
+std::string Arcade::GetName() {
 	return this->GameName;
 }
 
-std::string Arcade::GetCasinoName() { // get casino name
+std::string Arcade::GetCasinoName() {
 	return this->casino->GetName();
 }

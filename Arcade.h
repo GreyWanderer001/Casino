@@ -10,7 +10,7 @@ class Arcade
 {
 private:
 	std::string GameName = "";
-	Casino* casino; // vector of pointers to casinos
+	Casino* casino;
 
 public:
 	Arcade(std::string name, Casino* casino);
