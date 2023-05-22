@@ -32,7 +32,7 @@ public:
 	std::string GetName();
 	std::string GetAdress();
 	int GetFloors();
-	int GetSqm();
+	double GetSqm();
 
 	void SetName(std::string newVar);
 	void SetAdress(std::string newVar);
