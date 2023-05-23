@@ -87,3 +87,8 @@ void Casino::SetBalance(int newVar) {
 }
 
 
+
+void Casino::DeleteArcade(int index) {
+	arcades.erase(arcades.begin() + index);
+	std::cout << "\nArcade deleted successfully!" << std::endl;
+}

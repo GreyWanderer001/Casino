@@ -18,7 +18,7 @@ private:
 public:
 	Arcade(std::string name, Casino* casino, double price, double rent, std::string type);
 	void Display();
-	void Play(Customer &customer, int bid);
+	void Play(Customer& customer, int bid);
 	std::string GetName();
 	std::string GetCasinoName();
 	std::string GetType();

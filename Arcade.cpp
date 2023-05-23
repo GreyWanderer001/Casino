@@ -15,7 +15,7 @@ void Arcade::Display() {
 	std::cout << this->GameName << std::endl;
 }
 
-void Arcade::Play(Customer &customer, int bid) {
+void Arcade::Play(Customer& customer, int bid) {
 	if (bid > this->casino->GetBalance()) {
 		std::cout << "\nCasino dont have this amount of money!\n" << std::endl;
 	}
@@ -44,12 +44,12 @@ void Arcade::Play(Customer &customer, int bid) {
 				std::cout << "\n";
 				std::cout << "You won";
 			}
-			
+
 
 
 		}
 	}
-	
+
 }
 
 std::string Arcade::GetName() {

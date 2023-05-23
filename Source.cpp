@@ -25,6 +25,8 @@ void changeCasinoData(int index);
 int checkUser(string username, string password);
 void registerUser(string username, string password, string name, string surname, int age, string email, string phone);
 
+bool inputwithoutsemi(std::string stri);
+
 std::vector<Casino> casinos;
 std::vector<Customer> customers;
 
@@ -70,12 +72,13 @@ int main()
 	ReadCustomers();
 	ReadArcade();
 
-	string username, password;
+	string username = "";
+	string password = "";
 
-	string name;
-	string surname;
-	string email;
-	string phone;
+	string name = "";
+	string surname = "";
+	string email = "";
+	string phone = "";
 
 	int age = 0;
 
@@ -94,11 +97,19 @@ int main()
 
 			if (choice == 1) {
 
-				std::cout << "Enter Your Name: ";
-				std::cin >> name;
+				while (inputwithoutsemi(name)) {
+					std::cout << "Enter Your Name: ";
+					std::cin >> name;
 
-				std::cout << "Enter Your Surname: ";
-				std::cin >> surname;
+				}
+
+				while (inputwithoutsemi(surname)) {
+					std::cout << "Enter Your Surname: ";
+					std::cin >> surname;
+
+				}
+
+				
 
 
 				while (true) {
@@ -116,9 +127,14 @@ int main()
 
 
 				while (true) {
-					if (isEmailAddressValid(email) != true) {
-						std::cout << "Enter your E-mail address: ";
-						std::cin >> (std::cin, email);
+					if (isEmailAddressValid(email) != true && inputwithoutsemi(email) == true) {
+
+						
+							std::cout << "Enter your E-mail address: ";
+							std::cin >> (std::cin, email);
+
+					
+						
 					}
 					else {
 						break;
@@ -126,18 +142,19 @@ int main()
 				}
 
 				while (true) {
-					if (isPhoneNumberValid(phone) != true) {
+					if (isPhoneNumberValid(phone) != true && inputwithoutsemi(phone) == true) {
 						std::cout << "Enter your phone number (example: +37129578473): ";
 						std::cin >> (std::cin, phone);
+
+						
 					}
 					else {
 						break;
 					}
 				}
 
-				username = "";
-
-				while (username == "admin" || username.length() <= 3) {
+				
+				while (username == "admin" || username.length() <= 3 || inputwithoutsemi(username)) {
 					std::cout << "Enter username (not admin!!!): ";
 					std::cin >> username;
 				}
@@ -166,7 +183,7 @@ int main()
 						}
 					}
 
-					if (password.length() >= 8) { // Check if the string is at least 8 characters long
+					if (password.length() >= 8 ) { // Check if the string is at least 8 characters long and do not contain :
 						for (char c : password) {
 							if (std::isupper(c)) { // Check if the character is an uppercase letter
 								valid = true;
@@ -183,18 +200,35 @@ int main()
 						std::cout << "Enter password: ";
 					}
 				}
-				for (int i = 0; (i < 100 && password[i] != '\0'); i++)
-					password[i] = password[i] + 2; //the key for encryption is 3 that is added to ASCII value
+				for (int i = 0; (i < 100 && password[i] != '\0'); i++) {
+					if (password[i] == '8') {
+						password[i] = password[i] + 3;
+					}
+					else {
+						password[i] = password[i] + 2;
+
+					}
+
+				}
 
 				registerUser(username, password, name, surname, age, email, phone);
 				std::cout << endl;
 			}
 
 			else if (choice == 2) {
-				std::cout << "Enter username: ";
-				std::cin >> username;
-				std::cout << "Enter password: ";
-				password = "";
+				while (inputwithoutsemi(name)) {
+					std::cout << "Enter username: ";
+
+					std::cin >> username;
+
+				}
+
+				while (inputwithoutsemi(name)) {
+					std::cout << "Enter password: ";
+					password = "";
+
+				}
+				
 				while (true) {
 					char ch = _getch();
 					if (ch == '\r') {
@@ -212,10 +246,22 @@ int main()
 					}
 				}
 
-				for (int i = 0; (i < 100 && password[i] != '\0'); i++)
-					password[i] = password[i] + 2; //the key for encryption is 3 that is added to ASCII value
+				for (int i = 0; (i < 100 && password[i] != '\0'); i++) {
+					if (password[i] == '8') {
+						password[i] = password[i] + 3;
+					}
+					else {
+						password[i] = password[i] + 2;
+					}
+					
+				}
 				me = checkUser(username, password);
-				if (me > -1) {
+				if (username == adminUsername && password == adminPassword) {
+					me = -2; // Set a special value for the admin
+					choice = 3;
+				}
+
+				if (me > -1 || me == -2) {
 					choice = 3;
 
 				}
@@ -223,10 +269,7 @@ int main()
 					std::cout << "\nIncorrect login or password!\n";
 				}
 
-				if (username == adminUsername && password == adminPassword) {
-					me = -2; // Set a special value for the admin
-					choice = 3;
-				}
+				
 
 
 			}
@@ -388,10 +431,15 @@ int main()
 					std::cin.ignore(INT_MAX, '\n'); // this clears console
 
 					if (choice == 1) {
+						std::string name = "";
+						
+						while (inputwithoutsemi(name)) {
+							std::cout << "Enter Casino name: ";
+							std::cin >> name;
 
-						std::cout << "Enter Casino name: ";
-						std::string name;
-						std::cin >> name;
+						}
+						
+						
 
 						while (name.length() < 1) {
 							std::cout << "Enter Casino adress: ";
@@ -604,9 +652,9 @@ int main()
 							std::cin.ignore(INT_MAX, '\n'); // this clears console
 							index -= 1;
 						}
+						int index2 = -10;
 
-						while (true) {
-							int index2;
+						while (index2 >= casinos.at(index).GetArcadesSize() || index2 < 0) {
 							std::cout << "\n";
 							std::cout << "Choose arcade to delete: " << std::endl;
 							casinos.at(index).DisplayArcades();
@@ -615,8 +663,10 @@ int main()
 							std::cin.clear();//clears state of cin
 							std::cin.ignore(INT_MAX, '\n'); // this clears console
 							index2 -= 1;
+								
 
 						}
+						casinos.at(index).DeleteArcade(index2);
 
 					}
 				}
@@ -1120,5 +1170,16 @@ void changeCasinoData(int index)
 	}
 	else {
 		std::cout << "\nInvalid Casino index.\n";
+	}
+}
+
+
+bool inputwithoutsemi(std::string stri) {
+	
+	if (strstr(stri.c_str(), ":") || stri.empty()) {
+		return true;
+	}
+	else {
+		return false;
 	}
 }

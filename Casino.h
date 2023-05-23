@@ -26,6 +26,7 @@ public:
 	void CreateArcade(std::string name, double price, double rent, std::string type);
 	Arcade GetArcade(int index);
 	Arcade GetArcadeByName(std::string name);
+	void DeleteArcade(int index);
 	void ChangeBalance(int newbalance);
 	int GetBalance();
 	void DisplayArcades();
