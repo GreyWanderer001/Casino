@@ -3,10 +3,12 @@
 #include "Customer.h"
 #include "Casino.h"
 
-Arcade::Arcade(std::string name, Casino* casino) {
-
+Arcade::Arcade(std::string name, Casino* casino, double price, double rent, std::string type) {
 	this->GameName = name;
 	this->casino = casino;
+	this->price = price;
+	this->rent = rent;
+	this->type = type;
 }
 
 void Arcade::Display() {
@@ -56,4 +58,33 @@ std::string Arcade::GetName() {
 
 std::string Arcade::GetCasinoName() {
 	return this->casino->GetName();
+}
+
+double Arcade::GetPrice() {
+	return this->price;
+}
+
+double Arcade::GetRent() {
+	return this->rent;
+}
+
+std::string Arcade::GetType() {
+	return this->type;
+}
+
+void Arcade::SetName(std::string newVar) {
+	this->GameName = newVar;
+
+}
+void Arcade::SetRent(double newVar) {
+	this->price = newVar;
+
+}
+void Arcade::SetPrice(double newVar) {
+	this->rent = newVar;
+
+}
+void Arcade::SetType(std::string newVar) {
+	this->type = newVar;
+
 }

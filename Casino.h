@@ -2,6 +2,7 @@
 #include <string>
 #include "Arcade.h"
 #include <vector>
+#include <algorithm>
 #ifndef Casino_H
 #define Casino_H
 
@@ -22,7 +23,7 @@ private:
 public:
 	Casino(int balance, std::string name, std::string adress, int floors, double sqm);
 	void Display();
-	void CreateArcade(std::string name);
+	void CreateArcade(std::string name, double price, double rent, std::string type);
 	Arcade GetArcade(int index);
 	Arcade GetArcadeByName(std::string name);
 	void ChangeBalance(int newbalance);
@@ -39,8 +40,6 @@ public:
 	void SetFloors(int newVar);
 	void SetSqm(double newVar);
 	void SetBalance(int newVar);
-
-
 
 
 };

@@ -88,5 +88,5 @@ void Customer::SetPhone(std::string newVar) {
 }
 
 void Customer::SetBalance(int newVar) {
-	this->phone = newVar;
+	this->balance = newVar;
 }

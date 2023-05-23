@@ -2,7 +2,6 @@
 #include "Casino.h"
 #include <string>
 
-
 Casino::Casino(int balance, std::string name, std::string adress, int floors, double sqm) { // constructor
 	this->balance = balance;
 	this->name = name;
@@ -17,12 +16,12 @@ void Casino::Display() { // display all fields
 
 void Casino::DisplayArcades() { // display all arcades from vector
 	for (int i = 0; i < arcades.size(); i++)
-		std::cout << i+1 << ". " << arcades.at(i).GetName() << std::endl;
+		std::cout << i + 1 << ". " << arcades.at(i).GetName() << std::endl;
 }
 
-void Casino::CreateArcade(std::string name) { // create new arcade and add it to vector
-	
-	Arcade arcade(name, this);
+void Casino::CreateArcade(std::string name, double price, double rent, std::string type) { // create new arcade and add it to vector
+
+	Arcade arcade(name, this, price, rent, type);
 	this->arcades.push_back(arcade);
 }
 
@@ -67,7 +66,7 @@ std::string Casino::GetAdress() {
 int Casino::GetFloors() {
 	return this->floors;
 }
-int Casino::GetSqm() {
+double Casino::GetSqm() {
 	return this->sqm;
 }
 
@@ -86,3 +85,5 @@ void Casino::SetSqm(double newVar) {
 void Casino::SetBalance(int newVar) {
 	this->balance = newVar;
 }
+
+
