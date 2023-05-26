@@ -24,6 +24,11 @@ void Customer::ChangeBalance(int newbalance) {
 	}
 }
 
+void Customer::Display() {
+	std::cout << this->name << " " << this->surname << this->balance << " " << " " << this->username << " " << this->password << std::endl;
+	std::cout << this->age << " " << this->email << " " << this->phone;
+}
+
 int Customer::GetBalance() {
 	return this->balance;
 }

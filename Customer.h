@@ -28,7 +28,6 @@ public:
 	int GetAge();
 	std::string GetEmail();
 	std::string GetPhone();
-
 	void SetUsername(std::string newVar);
 	void SetName(std::string newVar);
 	void SetSurname(std::string newVar);
@@ -36,4 +35,7 @@ public:
 	void SetEmail(std::string newVar);
 	void SetPhone(std::string newVar);
 	void SetBalance(int newVar);
+
+	void Display();
+
 };
