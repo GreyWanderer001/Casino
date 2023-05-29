@@ -100,6 +100,29 @@ bool compareCasinosByFloor(Casino& u1, Casino& u2) {
 	return u1.GetFloors() > u2.GetFloors();
 }
 
+bool compareArcadesByRent(Arcade& u1, Arcade& u2) {
+	return u1.GetRent() > u2.GetRent();
+}
+
+bool compareArcadesByPrice(Arcade& u1, Arcade& u2) {
+	return u1.GetPrice() > u2.GetPrice();
+}
+
+bool compareArcadesByName(Arcade& u1, Arcade& u2) {
+	if (u1.GetName().length() == u2.GetName().length()) {
+		return u1.GetName() < u2.GetName();
+	}
+	return u1.GetName().length() < u2.GetName().length();
+}
+
+bool compareArcadesByType(Arcade& u1, Arcade& u2) {
+	if (u1.GetType().length() == u2.GetType().length()) {
+		return u1.GetType() < u2.GetType();
+	}
+	return u1.GetType().length() < u2.GetType().length();
+}
+
+
 
 
 int main()
@@ -672,7 +695,7 @@ int main()
 				}
 
 				else if (choice == 2) {
-					std::cout << "1. Create Arcade\n2. Delete Arcade\n3. Change Arcade data\n4. Sort Arcade\n-> ";
+					std::cout << "1. Create Arcade\n2. Delete Arcade\n3. Change Arcade data\n4. Sort Arcade\n5. Find Arcade \n-> ";
 					std::cin >> choice;
 					std::cin.clear();//clears state of cin
 					std::cin.ignore(INT_MAX, '\n'); // this clears console
@@ -690,38 +713,63 @@ int main()
 						Casinonum -= 1;
 
 						while (Casinonum >= casinos.size() || Casinonum < 0) {
-							std::cout << "Choose correct casino number: " << std::endl;
+							std::cout << "Choose correct casino number: , -1 to exit" << std::endl;
 							for (int i = 0; i < casinos.size(); i++)
 								std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 							std::cout << "-> ";
 							std::cin >> Casinonum;
 							std::cin.clear();//clears state of cin
 							std::cin.ignore(INT_MAX, '\n'); // this clears console
+							if (Casinonum == -1) {
+								break;
+							}
 							Casinonum -= 1;
 						}
 
 
-						std::string Arcadename = "";
-						while (inputwithoutsemi(Arcadename)) {
-							std::cout << "Enter Arcade name: ";
-							std::cin >> Arcadename;
+						if (Casinonum != -1) {
+							std::string Arcadename = "";
+							while (inputwithoutsemi(Arcadename)) {
+								std::cout << "Enter Arcade name: ";
+								std::cin >> Arcadename;
+							}
+
+							double rent, price;
+							std::cout << "Enter Arcade price: ";
+							std::cin >> price;
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+							while (price < 1) {
+								std::cout << "Enter correct price (>0): ";
+								std::cin >> price;
+
+								std::cin.clear();//clears state of cin
+								std::cin.ignore(INT_MAX, '\n'); // this clears console
+							}
+							std::cout << "Enter Arcade rent: ";
+							std::cin >> rent;
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+							while (rent < 1) {
+								std::cout << "Enter correct rent (>0): ";
+								std::cin >> rent;
+
+								std::cin.clear();//clears state of cin
+								std::cin.ignore(INT_MAX, '\n'); // this clears console
+							}
+
+							std::string type = "";
+							while (inputwithoutsemi(type)) {
+								std::cout << "Enter Arcade type: ";
+								std::cin >> type;
+							}
+
+
+							casinos.at(Casinonum).CreateArcade(Arcadename, price, rent, type);
+							casinocreatedcount++;
 						}
 
-						double rent, price;
-						std::cout << "Enter Arcade price: ";
-						std::cin >> price;
-						std::cout << "Enter Arcade rent: ";
-						std::cin >> rent;
-
-						std::string type = "";
-						while (inputwithoutsemi(type)) {
-							std::cout << "Enter Arcade type: ";
-							std::cin >> type;
-						}
-
-
-						casinos.at(Casinonum).CreateArcade(Arcadename, price, rent, type);
-						casinocreatedcount++;
+						
 					}
 
 					else if (choice == 2) {
@@ -775,35 +823,54 @@ int main()
 						index -= 1;
 
 						while (index >= casinos.size() || index < 0) {
-							std::cout << "Choose correct casino number: " << std::endl;
+							std::cout << "Choose correct casino number: , -1 to exit" << std::endl;
 							for (int i = 0; i < casinos.size(); i++)
 								std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
 							std::cout << "-> ";
 							std::cin >> index;
 							std::cin.clear();//clears state of cin
 							std::cin.ignore(INT_MAX, '\n'); // this clears console
+							if (index == -1) {
+								break;
+							}
 							index -= 1;
 						}
-						int index2 = -10;
 
-						while (index2 >= casinos.at(index).GetArcadesSize() || index2 < 0) {
-							std::cout << "\n";
-							std::cout << "Choose arcade to change data: " << std::endl;
-							casinos.at(index).DisplayArcades();
-							std::cout << "-> ";
-							std::cin >> index2;
-							std::cin.clear();//clears state of cin
-							std::cin.ignore(INT_MAX, '\n'); // this clears console
-							index2 -= 1;
+						if (index != -1) {
+							int index2 = -10;
+
+							while (index2 >= casinos.at(index).GetArcadesSize() || index2 < 0) {
+								std::cout << "\n";
+								std::cout << "Choose arcade to change data: " << std::endl;
+								casinos.at(index).DisplayArcades();
+								std::cout << "-> ";
+								std::cin >> index2;
+								std::cin.clear();//clears state of cin
+								std::cin.ignore(INT_MAX, '\n'); // this clears console
+								index2 -= 1;
 
 
 
+							}
+
+							ChangeArcadeData(index2, index);
 						}
-
-						ChangeArcadeData(index2, index);
+						
 					}
 
 					else if (choice == 4) {
+						std::vector<Arcade> globalvec;
+
+						for (int i = 0; i < casinos.size(); i++) {
+							for (int y = 0; y < casinos.at(i).GetArcades().size(); y++) {
+								globalvec.push_back(casinos.at(i).GetArcades().at(y));
+							}
+						}
+
+
+
+
+						
 						std::cout << "Chose sort option!\n";
 						std::cout << "1. By name\n";
 						std::cout << "2. By price\n";
@@ -811,6 +878,75 @@ int main()
 						std::cout << "4. By type\n";
 						std::cout << "-> ";
 						std::cin >> choice;
+						std::cin.clear();//clears state of cin
+						std::cin.ignore(INT_MAX, '\n'); // this clears console
+						
+
+						if (choice == 1) {
+							std::cout << "Sorted arcades by Name:\n";
+							std::sort(globalvec.begin(), globalvec.end(), compareArcadesByName);
+							for (auto& arcade : globalvec) {
+								std::cout << arcade.GetName() << "\n";
+							}
+						}
+
+						else if (choice == 2) {
+							std::cout << "Sorted arcades by Price:\n";
+							std::sort(globalvec.begin(), globalvec.end(), compareArcadesByPrice);
+							for (auto& arcade : globalvec) {
+								std::cout << arcade.GetName() << ": " << arcade.GetPrice() << "\n";
+							}
+						}
+
+						else if (choice == 3) {
+							std::cout << "Sorted arcades by Rent:\n";
+							std::sort(globalvec.begin(), globalvec.end(), compareArcadesByRent);
+							for (auto& arcade : globalvec) {
+								std::cout << arcade.GetName() << ": " << arcade.GetRent() << "\n";
+							}
+						}
+
+						else if (choice == 4) {
+							std::cout << "Sorted arcades by Type:\n";
+							std::sort(globalvec.begin(), globalvec.end(), compareArcadesByType);
+							for (auto& arcade : globalvec) {
+								std::cout << arcade.GetName() << ": " << arcade.GetType() << "\n";
+							}
+						}
+						
+					}
+					else if (choice == 5) {
+						std::vector<Arcade> globalvec;
+
+						for (int i = 0; i < casinos.size(); i++) {
+							for (int y = 0; y < casinos.at(i).GetArcades().size(); y++) {
+								globalvec.push_back(casinos.at(i).GetArcades().at(y));
+							}
+						}
+
+
+						int index = -10;
+
+						std::cout << globalvec.size() << std::endl;
+
+						while (index >= globalvec.size() || index <= 0) {
+							std::cout << "Which Arcade would you like to view?, -1 to exit" << std::endl;
+							for (int i = 0; i < globalvec.size(); i++)
+								std::cout << i + 1 << ". " << globalvec.at(i).GetName() << std::endl;
+							std::cout << "-> ";
+							std::cin >> index;
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+							if (index == -1) {
+								break;
+							}
+							index--;
+						}
+						if (index != -1) {
+							globalvec.at(index).Display();
+
+						}
+
 					}
 				}
 
@@ -831,6 +967,8 @@ int main()
 							std::cout << i + 1 << ". " << customers.at(i).GetUsername() << std::endl;
 						std::cout << "-> ";
 						std::cin >> index;
+						std::cin.clear();//clears state of cin
+						std::cin.ignore(INT_MAX, '\n'); // this clears console
 						deleteUser(index - 1);
 
 					}
@@ -841,6 +979,8 @@ int main()
 							std::cout << i + 1 << ". " << customers.at(i).GetUsername() << std::endl;
 						std::cout << "-> ";
 						std::cin >> index;
+						std::cin.clear();//clears state of cin
+						std::cin.ignore(INT_MAX, '\n'); // this clears console
 						changeUserData(index - 1);
 
 					}
@@ -873,6 +1013,8 @@ int main()
 						std::cout << "3. By age\n";
 						std::cout << "-> ";
 						std::cin >> choice;
+						std::cin.clear();//clears state of cin
+						std::cin.ignore(INT_MAX, '\n'); // this clears console
 
 						if (choice == 1) {
 							std::cout << "Sorted users by Name:\n";

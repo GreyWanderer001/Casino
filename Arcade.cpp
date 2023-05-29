@@ -12,7 +12,7 @@ Arcade::Arcade(std::string name, Casino* casino, double price, double rent, std:
 }
 
 void Arcade::Display() {
-    std::cout << this->GameName << std::endl;
+    std::cout << this->GameName << " " << this->price << " " << this->rent << " " << this->type << " Parent casino: " << this->casino->GetName() << std::endl;
 }
 
 int Arcade::Play(Customer& customer, int bid) {
