@@ -588,23 +588,19 @@ int main()
 								std::cin.clear();//clears state of cin
 								std::cin.ignore(INT_MAX, '\n'); // this clears console
 								choice3 -= 1;
-								if (choice3 != -2) {
-									casinos.erase(casinos.begin() + choice3);
-									std::cout << "\nCasino deleted successfully!" << std::endl;
-								}
-								else {
-									break;
 
-								}
 
 							}
 
+							if (choice3 != -2) {
+								casinos.erase(casinos.begin() + choice3);
+								std::cout << "\nCasino deleted successfully!" << std::endl;
+							}
+							else {
+								break;
 
-
+							}
 						}
-
-
-
 					}
 
 					else if (choice == 3) {
@@ -929,7 +925,7 @@ int main()
 
 						std::cout << globalvec.size() << std::endl;
 
-						while (index >= globalvec.size() || index <= 0) {
+						while (index >= globalvec.size() || index < 0) {
 							std::cout << "Which Arcade would you like to view?, -1 to exit" << std::endl;
 							for (int i = 0; i < globalvec.size(); i++)
 								std::cout << i + 1 << ". " << globalvec.at(i).GetName() << std::endl;
