@@ -1,4 +1,2 @@
-Flappybox:Fenix
-Slot:Olympic
-War:Olybet
-Flappybox:Olybet
+Bandit:ASASF:50:12.5:ruletka
+Arcade:Olympic:100:50:igrovoj

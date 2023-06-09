@@ -136,6 +136,11 @@ int main()
 	ReadCustomers();
 	ReadArcade();
 
+
+
+	int age = 0;
+
+
 	string username = "";
 	string password = "";
 
@@ -143,11 +148,6 @@ int main()
 	string surname = "";
 	string email = "";
 	string phone = "";
-
-	int age = 0;
-
-
-
 
 
 
@@ -162,6 +162,16 @@ int main()
 			std::cin.ignore(INT_MAX, '\n'); // this clears console
 
 			if (choice == 1) {
+
+				string username = "";
+				string password = "";
+
+				string name = "";
+				string surname = "";
+				string email = "";
+				string phone = "";
+
+				int age = 0;
 
 				while (inputwithoutsemi(name)) {
 					std::cout << "Enter Your Name: ";

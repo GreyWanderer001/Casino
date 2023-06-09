@@ -6,6 +6,7 @@ class Customer
 {
 private:
 	int balance = 0;
+
 	std::string username = "";
 	std::string password = "";
 
