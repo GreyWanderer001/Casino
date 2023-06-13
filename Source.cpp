@@ -163,15 +163,15 @@ int main()
 
 			if (choice == 1) {
 
-				string username = "";
-				string password = "";
+				username = "";
+				password = "";
 
-				string name = "";
-				string surname = "";
-				string email = "";
-				string phone = "";
+				name = "";
+				surname = "";
+				email = "";
+				phone = "";
 
-				int age = 0;
+				age = 0;
 
 				while (inputwithoutsemi(name)) {
 					std::cout << "Enter Your Name: ";
@@ -190,7 +190,7 @@ int main()
 
 				while (true) {
 
-					if (age < 18) {
+					if (age < 18 || age > 100) {
 						std::cout << "How old are You?: ";
 						std::cin >> age;
 						std::cin.clear();//clears state of cin
@@ -395,96 +395,103 @@ int main()
 					std::cin >> choice3;
 					std::cin.clear();//clears state of cin
 					std::cin.ignore(INT_MAX, '\n'); // this clears console
-					choice3 -= 1;
-				}
-
-				while (true) {
-
-					std::cout << "\n";
-					std::cout << "Choose arcade (write \"-1\" to exit): " << std::endl;
-					casinos.at(choice3).DisplayArcades();
-					std::cout << "-> ";
-					std::cin >> choice2;
-					std::cin.clear();//clears state of cin
-					std::cin.ignore(INT_MAX, '\n'); // this clears console
-					choice2 -= 1;
-
-					if (choice2 == -2) {
+					if (choice3 == -1) {
 						break;
 					}
+					choice3 -= 1;
+				}
+				if (choice3 != -1) {
+					while (true) {
 
-					while (choice2 > casinos.at(choice3).GetArcadesSize() - 1 || choice2 < 0) {
-						std::cout << "Choose correct  (write \"-1\" to exit): " << std::endl;
+						std::cout << "\n";
+						std::cout << "Choose arcade (write \"-1\" to exit): " << std::endl;
 						casinos.at(choice3).DisplayArcades();
 						std::cout << "-> ";
 						std::cin >> choice2;
 						std::cin.clear();//clears state of cin
 						std::cin.ignore(INT_MAX, '\n'); // this clears console
 						choice2 -= 1;
+
 						if (choice2 == -2) {
-							doublebreak = true;
-							break;
-						}
-					}
-
-					if (doublebreak) {
-						doublebreak = false;
-						break;
-					}
-
-					izvade(); // display user info
-
-					while (true) {
-						std::cout << "\n";
-						std::cout << "Enter your bid (write \"-1\" to exit): ";
-						std::cin >> bid;
-						std::cin.clear();//clears state of cin
-						std::cin.ignore(INT_MAX, '\n'); // this clears console
-
-						if (bid == -1) {
-							doublebreak = true;
 							break;
 						}
 
-						while (bid > customers.at(me).GetBalance() || bid <= 0) {
-							std::cout << "\n";
-							std::cout << "Enter your bid correctly (write \"-1\" to exit): ";
-							std::cin >> bid;
+						while (choice2 > casinos.at(choice3).GetArcadesSize() - 1 || choice2 < 0) {
+							std::cout << "Choose correct  (write \"-1\" to exit): " << std::endl;
+							casinos.at(choice3).DisplayArcades();
+							std::cout << "-> ";
+							std::cin >> choice2;
 							std::cin.clear();//clears state of cin
 							std::cin.ignore(INT_MAX, '\n'); // this clears console
-							if (bid == -1) {
+							choice2 -= 1;
+							if (choice2 == -2) {
 								doublebreak = true;
 								break;
 							}
 						}
 
 						if (doublebreak) {
+							doublebreak = false;
+							break;
+						}
+
+						izvade(); // display user info
+
+						while (true) {
+							std::cout << "\n";
+							std::cout << "Enter your bid (write \"-1\" to exit): ";
+							std::cin >> bid;
+							std::cin.clear();//clears state of cin
+							std::cin.ignore(INT_MAX, '\n'); // this clears console
+
+							if (bid == -1) {
+								doublebreak = true;
+								break;
+							}
+
+							while (bid > customers.at(me).GetBalance() || bid <= 0) {
+								std::cout << "\n";
+								std::cout << "Enter your bid correctly (write \"-1\" to exit): ";
+								std::cin >> bid;
+								std::cin.clear();//clears state of cin
+								std::cin.ignore(INT_MAX, '\n'); // this clears console
+								if (bid == -1) {
+									doublebreak = true;
+									break;
+								}
+							}
+
+							if (doublebreak) {
+								break;
+							}
+
+
+							izvade();
+							int money = casinos.at(choice3).GetArcade(choice2).Play(customers.at(me), bid);
+							if (money > 0) {
+								wincount++;
+								winbetcount += money;
+							}
+							if (money < 0) {
+								losecount++;
+								losebetcount += money;
+							}
+							writeToArcade(); // writting to file
+							writeToCasino();
+							writeToCustomers();
+						}
+
+						if (doublebreak) {
+							doublebreak = false;
 							break;
 						}
 
 
-						izvade();
-						int money = casinos.at(choice3).GetArcade(choice2).Play(customers.at(me), bid);
-						if (money > 0) {
-							wincount++;
-							winbetcount += money;
-						}
-						if (money < 0) {
-							losecount++;
-							losebetcount += money;
-						}
-						writeToArcade(); // writting to file
-						writeToCasino();
-						writeToCustomers();
 					}
-
-					if (doublebreak) {
-						doublebreak = false;
-						break;
-					}
-
-
 				}
+
+
+				
 
 			}
 
@@ -626,25 +633,59 @@ int main()
 					}
 
 					else if (choice == 4) {
-						int index = 0;
-						std::cout << "Which Casino would you like to view?" << std::endl;
-						for (int i = 0; i < casinos.size(); i++)
-							std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
-						std::cout << "-> ";
-						std::cin >> index;
-						std::cin.clear();//clears state of cin
-						std::cin.ignore(INT_MAX, '\n'); // this clears console
 
-						while (index > casinos.size() || index < 0) {
-							std::cout << "Choose correct casino number: " << std::endl;
-							for (int i = 0; i < casinos.size(); i++)
-								std::cout << i + 1 << ". " << casinos.at(i).GetName() << std::endl;
-							std::cout << "-> ";
-							std::cin >> index;
-							std::cin.clear();//clears state of cin
-							std::cin.ignore(INT_MAX, '\n'); // this clears console
+
+
+						int index = -10;
+
+		
+
+
+
+
+						std::vector<int> occ;
+
+						std::string finder;
+
+						std::cout << "Input name of casino that you want to find" << std::endl;
+						std::cin >> finder;
+
+
+
+
+						for (int i = 0; i < casinos.size(); i++) {
+							if (casinos.at(i).GetName().find(finder) != std::string::npos) {
+								occ.push_back(i);
+							}
 						}
-						casinos.at(index - 1).Display();
+
+
+						if (occ.size() > 0) {
+							while (index >= occ.size() || index < 0) {
+								for (int i = 0; i < occ.size(); i++) {
+									std::cout << i + 1 << ". " << casinos.at(occ[i]).GetName() << std::endl;
+								}
+								std::cout << "-> ";
+								std::cin >> index;
+								std::cin.clear();//clears state of cin
+								std::cin.ignore(INT_MAX, '\n'); // this clears console
+								if (index == -1) {
+									break;
+								}
+								index--;
+							}
+
+
+							if (index != -1) {
+								casinos.at(occ[index]).Display();
+
+							}
+						}
+						else {
+							std::cout << "Nothing found" << std::endl;
+						}
+
+						
 					}
 
 					else if (choice == 5) {
@@ -853,10 +894,18 @@ int main()
 								std::cin >> index2;
 								std::cin.clear();//clears state of cin
 								std::cin.ignore(INT_MAX, '\n'); // this clears console
+								if (index2 == -1) {
+									doublebreak = true;
+									break;
+								}
 								index2 -= 1;
 
 
 
+							}
+							if (doublebreak) {
+								doublebreak = false;
+								break;
 							}
 
 							ChangeArcadeData(index2, index);
@@ -922,6 +971,10 @@ int main()
 						
 					}
 					else if (choice == 5) {
+
+
+
+
 						std::vector<Arcade> globalvec;
 
 						for (int i = 0; i < casinos.size(); i++) {
@@ -935,23 +988,52 @@ int main()
 
 						std::cout << globalvec.size() << std::endl;
 
-						while (index >= globalvec.size() || index < 0) {
-							std::cout << "Which Arcade would you like to view?, -1 to exit" << std::endl;
-							for (int i = 0; i < globalvec.size(); i++)
-								std::cout << i + 1 << ". " << globalvec.at(i).GetName() << std::endl;
-							std::cout << "-> ";
-							std::cin >> index;
-							std::cin.clear();//clears state of cin
-							std::cin.ignore(INT_MAX, '\n'); // this clears console
-							if (index == -1) {
-								break;
-							}
-							index--;
-						}
-						if (index != -1) {
-							globalvec.at(index).Display();
 
+				
+
+						std::vector<int> occ;
+
+						std::string finder;
+
+						std::cout << "Input name of arcade that you want to find" << std::endl;
+						std::cin >> finder;
+
+
+
+
+						for (int i = 0; i < globalvec.size(); i++) {
+							if (globalvec.at(i).GetName().find(finder) != std::string::npos) {
+								occ.push_back(i);
+							}
 						}
+
+
+						if (occ.size() > 0) {
+							while (index >= occ.size() || index < 0) {
+								for (int i = 0; i < occ.size(); i++) {
+									std::cout << i + 1 << ". " << globalvec.at(occ[i]).GetName() << std::endl;
+								}
+								std::cout << "-> ";
+								std::cin >> index;
+								std::cin.clear();//clears state of cin
+								std::cin.ignore(INT_MAX, '\n'); // this clears console
+								if (index == -1) {
+									break;
+								}
+								index--;
+							}
+
+
+							if (index != -1) {
+								globalvec.at(occ[index]).Display();
+
+							}
+						}
+						else {
+							std::cout << "Nothing found" << std::endl;
+						}
+						
+						
 
 					}
 				}
@@ -991,25 +1073,55 @@ int main()
 
 					}
 					else if (choice == 3) {
-						int index = 0;
-						std::cout << "Which User would you like to view?" << std::endl;
-						for (int i = 0; i < customers.size(); i++)
-							std::cout << i + 1 << ". " << customers.at(i).GetName() << std::endl;
-						std::cout << "-> ";
-						std::cin >> index;
-						std::cin.clear();//clears state of cin
-						std::cin.ignore(INT_MAX, '\n'); // this clears console
+						int index = -10;
+						
 
-						while (index > customers.size() || index < 0) {
-							std::cout << "Choose correct User number: " << std::endl;
-							for (int i = 0; i < customers.size(); i++)
-								std::cout << i + 1 << ". " << customers.at(i).GetName() << std::endl;
-							std::cout << "-> ";
-							std::cin >> index;
-							std::cin.clear();//clears state of cin
-							std::cin.ignore(INT_MAX, '\n'); // this clears console
+
+
+						std::vector<int> occ;
+
+						std::string finder;
+
+						std::cout << "Input name of user that you want to find" << std::endl;
+						std::cin >> finder;
+
+
+
+
+						for (int i = 0; i < customers.size(); i++) {
+							if (customers.at(i).GetName().find(finder) != std::string::npos) {
+								occ.push_back(i);
+							}
 						}
-						customers.at(index - 1).Display();
+
+						//std::wcout << "sperma";
+
+						if (occ.size() > 0) {
+							while (index >= occ.size() || index < 0) {
+								for (int i = 0; i < occ.size(); i++) {
+									std::cout << i + 1 << ". " << customers.at(occ[i]).GetName() << std::endl;
+								}
+								std::cout << "-> ";
+								std::cin >> index;
+								std::cin.clear();//clears state of cin
+								std::cin.ignore(INT_MAX, '\n'); // this clears console
+								if (index == -1) {
+									break;
+								}
+								index--;
+							}
+
+
+							if (index != -1) {
+								customers.at(occ[index]).Display();
+
+							}
+						}
+						else {
+							std::cout << "Nothing found" << std::endl;
+						}
+
+						
 
 					}
 					else if (choice == 4) {
@@ -1386,12 +1498,17 @@ void changeUserData(int index)
 				break;
 			case 7:
 				std::cout << "New balance: ";
-				std::cin >> balance;
-				customers.at(index).SetBalance(balance);
+				balance = -100;
+				while (balance < 0) {
+					std::cin >> balance;
+					customers.at(index).SetBalance(balance);
+				}
+
 				doublebreak = true;
 				break;
 			default:
 				std::cout << "Enter correct number!";
+				doublebreak = true;
 				break;
 			}
 			if (doublebreak) {
@@ -1518,6 +1635,7 @@ void changeCasinoData(int index)
 				break;
 			default:
 				std::cout << "Enter correct number!";
+				doublebreak = true;
 				break;
 			}
 			if (doublebreak) {
@@ -1620,6 +1738,7 @@ void ChangeArcadeData(int indexA, int indexC) {
 			break;
 		default:
 			std::cout << "Enter correct number!";
+			doublebreak = true;
 			break;
 		}
 		if (doublebreak) {
